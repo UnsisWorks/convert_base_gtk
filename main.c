@@ -1,14 +1,44 @@
 #include <gtk/gtk.h>
+#include <stdio.h>
 
 
 GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec;
 
 static void calcular(GtkWidget *widget, gpointer data) {
+    int count = 0;
     const gchar *bin = gtk_entry_get_text(GTK_ENTRY(txtBin));
-    const gchar *octal = gtk_entry_get_text(GTK_ENTRY(txtBin));
-    const gchar *deci = gtk_entry_get_text(GTK_ENTRY(txtBin));
-    const gchar *hexa = gtk_entry_get_text(GTK_ENTRY(txtBin));
-    g_print("%s", bin);
+    const gchar *octal = gtk_entry_get_text(GTK_ENTRY(txtOcta));
+    const gchar *deci = gtk_entry_get_text(GTK_ENTRY(txtDec));
+    const gchar *hexa = gtk_entry_get_text(GTK_ENTRY(txtHexa));
+    const gchar voi = "";
+
+    //char binc[] = &bin;
+    //printf("%s", binc);
+
+    g_print("entry: %s\n", bin);
+    g_print("entry: %s\n", octal);
+    g_print("entry: %s\n", deci);
+    g_print("entry: %s\n", hexa);
+
+    // Validacion de datos enviados
+    if (&bin != voi) {
+        count++;
+    }
+    if (&octal != voi) {
+        count++;
+    }
+    if (&deci != voi) {
+        count++;
+    }
+    if (&hexa != voi) {
+        count++;
+    }
+
+    if (count >= 1){
+        g_print("Continue\n");
+        count = 0;
+    }
+    
 
 }
 
