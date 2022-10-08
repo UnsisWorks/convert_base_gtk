@@ -1,44 +1,58 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
-
+// #include <gtk_auto.h>
 
 GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec;
 
+static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
+    GtkWidget *dialog, *label, *contentArea;
+    GtkDialogFlags flags;
+
+    // Create at window dialog with title, parent, flags, text in button
+    dialog = gtk_dialog_new_with_buttons(title, NULL, flags, "Aceptar", GTK_RESPONSE_NONE, NULL);
+
+    // Set properties at window dialog
+    contentArea = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+    gtk_window_set_default_size(GTK_WINDOW(dialog), 200, 200);
+    gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER_ALWAYS);
+    gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE)
+    label = gtk_label_new(message);
+    // gtk_label
+
+    // Close window dialog to the price button accept
+    g_signal_connect_swapped(dialog, "response", G_CALLBACK(gtk_widget_destroy), dialog);
+    // Add witget and show result
+    gtk_container_add(GTK_CONTAINER(contentArea), label);
+    gtk_widget_show_all(dialog);
+}
+
 static void calcular(GtkWidget *widget, gpointer data) {
+    
     int count = 0;
     const gchar *bin = gtk_entry_get_text(GTK_ENTRY(txtBin));
     const gchar *octal = gtk_entry_get_text(GTK_ENTRY(txtOcta));
     const gchar *deci = gtk_entry_get_text(GTK_ENTRY(txtDec));
     const gchar *hexa = gtk_entry_get_text(GTK_ENTRY(txtHexa));
-    const gchar voi = "";
-
-    //char binc[] = &bin;
-    //printf("%s", binc);
-
-    g_print("entry: %s\n", bin);
-    g_print("entry: %s\n", octal);
-    g_print("entry: %s\n", deci);
-    g_print("entry: %s\n", hexa);
-
-    // Validacion de datos enviados
-    if (&bin != voi) {
-        count++;
-    }
-    if (&octal != voi) {
-        count++;
-    }
-    if (&deci != voi) {
-        count++;
-    }
-    if (&hexa != voi) {
-        count++;
-    }
-
-    if (count >= 1){
-        g_print("Continue\n");
-        count = 0;
-    }
     
+    // Validacion de datos enviados a 1
+     if ((strcmp(bin, "") == 0)) {
+        count++;
+    }
+     if ((strcmp(octal, "") == 0)) {
+        count++;
+    }
+     if ((strcmp(hexa, "") == 0)) {
+        count++;
+    }
+     if ((strcmp(deci, "") == 0)) {
+        count++;
+    }
+
+    if (count == 3) {
+        g_print("continue\n");
+    } else {
+        sendMessage(widget, "Solo debe ingresar un dato", "Advertencia");
+    }
 
 }
 
@@ -104,3 +118,5 @@ int main(int argc, char **argv) {
 
     return status;
 }
+
+// Compiler: gcc `pkg-config --cflags gtk+-3.0` -o auto main.c `pkg-config --libs gtk+-3.0`
