@@ -51,12 +51,20 @@ static void convert (int id, GString *value) {
             break;
         case 1:
             g_print("before bucle octal\n");
+            // Validacion para contener numeros
             for (gint i = 0; i <= (value->len) - 1; i++) {
-                if (g_ascii_isdigit(value->str[i])) {
-                    g_print("Digito\n");
-                } else {
-                    g_print("Falso\n");
-            } 
+                if (!g_ascii_isdigit(value->str[i])) {
+                    flag = FALSE;
+                    break;
+                }
+            }
+            if (flag) {
+                /* condificacion de base octal*/
+                // Funcion para convertir de gstring a numero dep. la base. 0 para convertir tal cual
+                gint64 valInt = g_ascii_strtoll(value->str, NULL, 0);
+                g_print("%ld\n", valInt);
+            } else {
+                sendMessage(NULL, "La base octal solo debe contener numeros", "Aviso");
             }
             break;
         case 2:
