@@ -14,8 +14,8 @@ static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
     // Set properties at window dialog
     contentArea = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     gtk_window_set_default_size(GTK_WINDOW(dialog), 200, 200);
-    gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER_ALWAYS);
-    gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE)
+    gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
+    gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
     label = gtk_label_new(message);
     // gtk_label
 
@@ -25,35 +25,67 @@ static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
     gtk_container_add(GTK_CONTAINER(contentArea), label);
     gtk_widget_show_all(dialog);
 }
+static void convert (int id) {
 
+    // Selected convert correct
+    switch (id) {
+        // Cast from binary to rest bases
+        case 0:
+            
+            const gchar *bin = gtk_entry_get_text(GTK_ENTRY(txtBin));
+            for (int i = 0; i <= bin.length; i++) {
+                if ((strcmp(bin[i], "1")) || (strcmp(bin[i], "0")) || (strcmp(bin[i], "."))) {
+                    g_print("Continue\n");
+                } else {
+                    // sendMessage();
+                }
+            }
+            break;
+        case 1:
+            g_print("Octal\n");
+            break;
+        case 2:
+            g_print("Hexa\n");
+            break;
+        case 3:
+            g_print("Decimal\n");
+            break;
+        default:
+            break;
+    }
+}
 static void calcular(GtkWidget *widget, gpointer data) {
     
     int count = 0;
+    int id = 0;
     const gchar *bin = gtk_entry_get_text(GTK_ENTRY(txtBin));
     const gchar *octal = gtk_entry_get_text(GTK_ENTRY(txtOcta));
     const gchar *deci = gtk_entry_get_text(GTK_ENTRY(txtDec));
     const gchar *hexa = gtk_entry_get_text(GTK_ENTRY(txtHexa));
     
     // Validacion de datos enviados a 1
-     if ((strcmp(bin, "") == 0)) {
+     if ((strcmp(bin, "") != 0)) {
         count++;
+        id = 0;
     }
-     if ((strcmp(octal, "") == 0)) {
+     if ((strcmp(octal, "") != 0)) {
         count++;
+        id = 1;
     }
-     if ((strcmp(hexa, "") == 0)) {
+     if ((strcmp(hexa, "") != 0)) {
         count++;
+        id = 2;
     }
-     if ((strcmp(deci, "") == 0)) {
+     if ((strcmp(deci, "") != 0)) {
         count++;
+        id = 3;
     }
 
-    if (count == 3) {
-        g_print("continue\n");
+    if (count == 1) {
+        convert(id);
     } else {
         sendMessage(widget, "Solo debe ingresar un dato", "Advertencia");
     }
-
 }
 
 static void activate(GtkApplication *app, gpointer user_data) {
@@ -71,7 +103,8 @@ static void activate(GtkApplication *app, gpointer user_data) {
      g_signal_connect (button, "clicked", G_CALLBACK (calcular), NULL);
 
     gtk_container_add(GTK_CONTAINER(buttonBox), button);
-    gtk_fixed_put(GTK_FIXED(fixed), buttonBox, 140, 500);
+    // add button and set position in fixed 
+    gtk_fixed_put(GTK_FIXED(fixed), buttonBox, 170, 500);
 
     // Create entry text with label 
     txtBin = gtk_entry_new();
@@ -98,6 +131,7 @@ static void activate(GtkApplication *app, gpointer user_data) {
     window = gtk_application_window_new(app);
     gtk_window_set_title(GTK_WINDOW(window), "Window");
     gtk_window_set_default_size(GTK_WINDOW(window), 600, 600);
+    gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
     gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
 
     // add container at window
