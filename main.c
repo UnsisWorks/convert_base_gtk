@@ -25,21 +25,13 @@ static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
     gtk_container_add(GTK_CONTAINER(contentArea), label);
     gtk_widget_show_all(dialog);
 }
-static void convert (int id) {
+static void convert (int id, GString *value) {
 
     // Selected convert correct
     switch (id) {
         // Cast from binary to rest bases
         case 0:
-            
-            const gchar *bin = gtk_entry_get_text(GTK_ENTRY(txtBin));
-            for (int i = 0; i <= bin.length; i++) {
-                if ((strcmp(bin[i], "1")) || (strcmp(bin[i], "0")) || (strcmp(bin[i], "."))) {
-                    g_print("Continue\n");
-                } else {
-                    // sendMessage();
-                }
-            }
+            g_print("action\n");
             break;
         case 1:
             g_print("Octal\n");
@@ -58,6 +50,7 @@ static void calcular(GtkWidget *widget, gpointer data) {
     
     int count = 0;
     int id = 0;
+    const gchar *value;
     const gchar *bin = gtk_entry_get_text(GTK_ENTRY(txtBin));
     const gchar *octal = gtk_entry_get_text(GTK_ENTRY(txtOcta));
     const gchar *deci = gtk_entry_get_text(GTK_ENTRY(txtDec));
@@ -67,6 +60,7 @@ static void calcular(GtkWidget *widget, gpointer data) {
      if ((strcmp(bin, "") != 0)) {
         count++;
         id = 0;
+        value = bin;
     }
      if ((strcmp(octal, "") != 0)) {
         count++;
@@ -82,7 +76,8 @@ static void calcular(GtkWidget *widget, gpointer data) {
     }
 
     if (count == 1) {
-        convert(id);
+        GString *str = g_string_new(value);
+        convert(id, str);
     } else {
         sendMessage(widget, "Solo debe ingresar un dato", "Advertencia");
     }
