@@ -1,6 +1,5 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
-#include <glib.h>
 // #include <gtk_auto.h>
 
 GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec;
@@ -28,13 +27,13 @@ static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
 }
 static void convert (int id, GString *value) {
 
-    int i = 0;
     // Selected convert correct
     switch (id) {
         // Cast from binary to rest bases
         case 0:
-            for (gint i = 0; i <= (value -> len); i++) {
-                g_message("new");
+            g_print("action\n");
+            for (gint i = 1; i <= value->len; i++) {
+                g_print("%d\n", i);
             }
             break;
         case 1:
@@ -59,9 +58,7 @@ static void calcular(GtkWidget *widget, gpointer data) {
     const gchar *octal = gtk_entry_get_text(GTK_ENTRY(txtOcta));
     const gchar *deci = gtk_entry_get_text(GTK_ENTRY(txtDec));
     const gchar *hexa = gtk_entry_get_text(GTK_ENTRY(txtHexa));
-
-    g_debug("init");
-    g_print("value: %s\n", value);
+    
     // Validacion de datos enviados a 1
      if ((strcmp(bin, "") != 0)) {
         count++;
@@ -71,24 +68,18 @@ static void calcular(GtkWidget *widget, gpointer data) {
      if ((strcmp(octal, "") != 0)) {
         count++;
         id = 1;
-        value = octal;
     }
      if ((strcmp(hexa, "") != 0)) {
         count++;
         id = 2;
-        value = hexa;
     }
      if ((strcmp(deci, "") != 0)) {
         count++;
         id = 3;
-        value = deci;
     }
 
     if (count == 1) {
-        // Create objet string with value entry. Push str at funtion
-        g_debug("Before create objet");
         GString *str = g_string_new(value);
-        g_debug("Before push objet");
         convert(id, str);
     } else {
         sendMessage(widget, "Solo debe ingresar un dato", "Advertencia");
@@ -107,7 +98,7 @@ static void activate(GtkApplication *app, gpointer user_data) {
     // Create buton component
     buttonBox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
     button = gtk_button_new_with_label("Calcular");
-    g_signal_connect (button, "clicked", G_CALLBACK (calcular), NULL);
+     g_signal_connect (button, "clicked", G_CALLBACK (calcular), NULL);
 
     gtk_container_add(GTK_CONTAINER(buttonBox), button);
     // add button and set position in fixed 
