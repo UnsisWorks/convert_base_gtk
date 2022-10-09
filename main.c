@@ -32,6 +32,9 @@ static void convert (int id, GString *value) {
         // Cast from binary to rest bases
         case 0:
             g_print("action\n");
+            for (gint i = 1; i <= value->len; i++) {
+                g_print("%d\n", i);
+            }
             break;
         case 1:
             g_print("Octal\n");
