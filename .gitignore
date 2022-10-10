@@ -178,6 +178,8 @@ _minted*
 
 # morewrites
 *.mw
+.vscode
+.vscode/*
 
 # newpax
 *.newpax

@@ -1,6 +1,5 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
-// #include <gtk_auto.h>
 
 GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec;
 gchar letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
@@ -15,7 +14,7 @@ static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
     // Set properties at window dialog
     contentArea = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
     gtk_window_set_default_size(GTK_WINDOW(dialog), 200, 200);
-    gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER);
+    gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_CENTER_ON_PARENT );
     gtk_window_set_resizable(GTK_WINDOW(dialog), FALSE);
     label = gtk_label_new(message);
     // gtk_label
@@ -46,7 +45,8 @@ static void convert (int id, GString *value) {
 
             if (flag) {
                 g_print("continue\n");
-                /* Codificacion de base */
+                const gchar *replace = binToDecimal(value);
+                gtk_entry_set_text(GTK_ENTRY(txtDec), replace);
             } else {
                 sendMessage(NULL, "Ingresar unicamente 0 y 1", "Aviso");
             }
@@ -185,11 +185,11 @@ static void activate(GtkApplication *app, gpointer user_data) {
     // Create buton component
     buttonBox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
     button = gtk_button_new_with_label("Calcular");
-     g_signal_connect (button, "clicked", G_CALLBACK (calcular), NULL);
+    g_signal_connect (button, "clicked", G_CALLBACK (calcular), NULL);
 
     gtk_container_add(GTK_CONTAINER(buttonBox), button);
     // add button and set position in fixed 
-    gtk_fixed_put(GTK_FIXED(fixed), buttonBox, 190, 500);
+    gtk_fixed_put(GTK_FIXED(fixed), buttonBox, 250, 500);
 
     // Create entry text with label 
     txtBin = gtk_entry_new();
@@ -242,4 +242,10 @@ int main(int argc, char **argv) {
     return status;
 }
 
+gchar binToDecimal(GString value){
+
+    const gchar decimal[] = "cadena";
+
+    return *decimal;
+}
 // Compiler: gcc `pkg-config --cflags gtk+-3.0` -o auto main.c `pkg-config --libs gtk+-3.0`
