@@ -30,6 +30,7 @@ static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
 // Convert input a bases rest
 static void convert (int id, GString *value) {
     gboolean flag = TRUE;
+    gint64 band;
     // Selected convert correct
     switch (id) {
         // Cast from binary to rest bases
@@ -88,29 +89,43 @@ static void convert (int id, GString *value) {
             g_string_ascii_up(value);
             g_print("val: %s\n", value->str);
             flag = FALSE;
+            gint coin = 0;
             for (gint i = 0; i < value -> len; i++) {
                 // Validation for digit's
                 if (g_ascii_isdigit(value->str[i])) {
-                    g_print("Digit\n");
-                    if (((value->str[i] <= 9) && (value->str[i] >= 0))) {
-                        g_print("digit on core\n");
+                    // g_print("Digit\n");
+                    if (!((value->str[i] <= 9) && (value->str[i] >= 0))) {
+                        // g_print("digit on core\n");
+                        coin++;
                     }
                 // Validation for letters
                 } else {
+                    g_print("letter \n");
                     for (gint j = 0; j <= 5; j++) {
-                        for (gint k = 0; k < value -> len; k++) {
-                            if (value->str[k] == letters[j]) {
-                                flag = TRUE;
-                                g_print("cadena\n");
-                            }
-                        }
-                        
+                        if (value->str[i] == letters[j]) {
+                            flag = TRUE;
+                            coin++;
+                        } 
                     }
                 }
             }
+            // Decition final
+            if (coin == (value -> len)) {
+                g_print("continue\n");
+                /* Convert actal to rest bases */
+            } else {
+                sendMessage(NULL, "Numero octal no valido", "Aviso");
+            }
             break;
         case 3:
-            g_print("Decimal\n");
+            band = g_ascii_strtoll(value -> str, NULL, 0);
+            g_print("cod: %ld\n", band);
+            if (band != 0) {
+                g_print("continue\n");
+                /* Convert decimal to rest bases */
+            } else {
+                sendMessage(NULL, "El decimal debe ser un numero diferente de 0", "Aviso");
+            }
             break;
         default:
             break;
