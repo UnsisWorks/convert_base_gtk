@@ -3,6 +3,7 @@
 // #include <gtk_auto.h>
 
 GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec;
+gchar letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
 
 static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
     GtkWidget *dialog, *label, *contentArea;
@@ -49,6 +50,7 @@ static void convert (int id, GString *value) {
                 sendMessage(NULL, "Ingresar unicamente 0 y 1", "Aviso");
             }
             break;
+        // Conversion for octal base
         case 1:
             g_print("before bucle octal\n");
             // Validacion para contener numeros
@@ -59,16 +61,53 @@ static void convert (int id, GString *value) {
                 }
             }
             if (flag) {
-                /* condificacion de base octal*/
-                // Funcion para convertir de gstring a numero dep. la base. 0 para convertir tal cual
-                gint64 valInt = g_ascii_strtoll(value->str, NULL, 0);
-                g_print("%ld\n", valInt);
+                // Verificar nums < 8
+                for (gint i = 0; i < value -> len; i++) {
+                    if (!((value -> str[i]) < '8')) {
+                        flag = FALSE;
+                        break;
+                    }
+                }
+                if (flag) {
+                    g_print("Continue\n");
+                    // Funcion para convertir de gstring a numero dep. la base. 0 para convertir tal cual
+                    gint64 valInt = g_ascii_strtoll(value->str, NULL, 0);
+                    g_print("%ld\n", valInt);
+
+                    /* Convert base 8 at rest the bases */
+
+                } else {
+                    sendMessage(NULL, "La base octal opera en el rango de numeros 0 - 7", "Advertencia");
+                }
             } else {
                 sendMessage(NULL, "La base octal solo debe contener numeros", "Aviso");
             }
             break;
+        // Verification for base hexadecimal 
         case 2:
-            g_print("Hexa\n");
+            g_string_ascii_up(value);
+            g_print("val: %s\n", value->str);
+            flag = FALSE;
+            for (gint i = 0; i < value -> len; i++) {
+                // Validation for digit's
+                if (g_ascii_isdigit(value->str[i])) {
+                    g_print("Digit\n");
+                    if (((value->str[i] <= 9) && (value->str[i] >= 0))) {
+                        g_print("digit on core\n");
+                    }
+                // Validation for letters
+                } else {
+                    for (gint j = 0; j <= 5; j++) {
+                        for (gint k = 0; k < value -> len; k++) {
+                            if (value->str[k] == letters[j]) {
+                                flag = TRUE;
+                                g_print("cadena\n");
+                            }
+                        }
+                        
+                    }
+                }
+            }
             break;
         case 3:
             g_print("Decimal\n");
@@ -83,6 +122,7 @@ static void calcular(GtkWidget *widget, gpointer data) {
     int count = 0;
     int id = 0;
     const gchar *value;
+    // Get text the entry witgets
     const gchar *bin = gtk_entry_get_text(GTK_ENTRY(txtBin));
     const gchar *octal = gtk_entry_get_text(GTK_ENTRY(txtOcta));
     const gchar *deci = gtk_entry_get_text(GTK_ENTRY(txtDec));
