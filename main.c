@@ -3,7 +3,12 @@
 
 GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec;
 gchar letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
+static gchar binToDecimal(GString *value){
 
+    GString *decimal = g_string_new("cadena");
+    const gchar *val = decimal->str;
+    return val;
+}
 static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
     GtkWidget *dialog, *label, *contentArea;
     GtkDialogFlags flags;
@@ -240,12 +245,5 @@ int main(int argc, char **argv) {
     g_object_unref(app);
 
     return status;
-}
-
-gchar binToDecimal(GString value){
-
-    const gchar decimal[] = "cadena";
-
-    return *decimal;
 }
 // Compiler: gcc `pkg-config --cflags gtk+-3.0` -o auto main.c `pkg-config --libs gtk+-3.0`
