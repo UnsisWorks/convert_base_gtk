@@ -4,6 +4,12 @@
 GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec;
 gchar letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
 
+void binToDecimal(const gchar *reply, GString *value){
+
+    const gchar *decimal;
+    decimal = "holaaa";
+    reply = "decimal";
+}
 static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
     GtkWidget *dialog, *label, *contentArea;
     GtkDialogFlags flags;
@@ -30,6 +36,7 @@ static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
 static void convert (int id, GString *value) {
     gboolean flag = TRUE;
     gint64 band;
+    const gchar *reply;
     // Selected convert correct
     switch (id) {
         // Cast from binary to rest bases
@@ -45,8 +52,8 @@ static void convert (int id, GString *value) {
 
             if (flag) {
                 g_print("continue\n");
-                const gchar *replace = binToDecimal(value);
-                gtk_entry_set_text(GTK_ENTRY(txtDec), replace);
+                binToDecimal(reply, value);
+                gtk_entry_set_text(GTK_ENTRY(txtDec), reply);
             } else {
                 sendMessage(NULL, "Ingresar unicamente 0 y 1", "Aviso");
             }
@@ -242,10 +249,4 @@ int main(int argc, char **argv) {
     return status;
 }
 
-gchar binToDecimal(GString value){
-
-    const gchar decimal[] = "cadena";
-
-    return *decimal;
-}
 // Compiler: gcc `pkg-config --cflags gtk+-3.0` -o auto main.c `pkg-config --libs gtk+-3.0`
