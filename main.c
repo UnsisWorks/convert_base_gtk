@@ -6,20 +6,26 @@ gchar letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
 
 void binToDecimal(const gchar *reply, GString *value){
 
-    GString afterPoint;
-    GString beforePoint;
+    GString *afterPoint = g_string_new(value -> str);
+    GString *beforePoint = g_string_new(value -> str);
+
+    gint after = 0;
+    gint before = 0;
 
     // Separete string for point
     for (gint i = 0; i < value->len; i++) {
         if (value -> str[i] == '.'){
-            afterPoint = g_string_new((value -> str[]));
+            beforePoint = g_string_truncate(beforePoint, i);
+            afterPoint = g_string_erase(afterPoint, 0, i + 1);
         }
     }
+    g_print("before: %s   After: %s  \n", beforePoint -> str, afterPoint -> str);
 
-    for (gint i = (value -> len) - 1; i >= 0; i--) {
-        if (value -> str[i] == '1') {
-            g_print("value: %c  pot: %ld \n", (value -> str[i]), (value->len - 1) - i);
-
+    // Convert part before at point
+    for (gint i = (beforePoint -> len) - 1; i >= 0; i--) {
+        if (beforePoint -> str[i] == '1') {
+            g_print("value: %c  pot: %ld \n", (beforePoint -> str[i]), (beforePoint->len - 1) - i);
+            
 
         }
     }
@@ -67,9 +73,7 @@ static void convert (int id, GString *value) {
             }
 
             if (flag) {
-                g_print("continue\n");
                 binToDecimal(reply, value);
-                gtk_entry_set_text(GTK_ENTRY(txtDec), reply);
             } else {
                 sendMessage(NULL, "Ingresar unicamente 0 y 1", "Aviso");
             }
@@ -266,4 +270,4 @@ int main(int argc, char **argv) {
 }
 
 // Compiler: gcc `pkg-config --cflags gtk+-3.0` -o auto main.c `pkg-config --libs gtk+-3.0`
-https://calcifer.org/documentos/librognome/glib-strings.html
+// https://calcifer.org/documentos/librognome/glib-strings.html 
