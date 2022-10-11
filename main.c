@@ -6,10 +6,26 @@ gchar letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
 
 void binToDecimal(const gchar *reply, GString *value){
 
-    const gchar *decimal;
-    decimal = "holaaa";
-    reply = "decimal";
+    GString afterPoint;
+    GString beforePoint;
+
+    // Separete string for point
+    for (gint i = 0; i < value->len; i++) {
+        if (value -> str[i] == '.'){
+            afterPoint = g_string_new((value -> str[]));
+        }
+    }
+
+    for (gint i = (value -> len) - 1; i >= 0; i--) {
+        if (value -> str[i] == '1') {
+            g_print("value: %c  pot: %ld \n", (value -> str[i]), (value->len - 1) - i);
+
+
+        }
+    }
 }
+
+// Crate new window and show messaege 
 static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
     GtkWidget *dialog, *label, *contentArea;
     GtkDialogFlags flags;
@@ -250,3 +266,4 @@ int main(int argc, char **argv) {
 }
 
 // Compiler: gcc `pkg-config --cflags gtk+-3.0` -o auto main.c `pkg-config --libs gtk+-3.0`
+https://calcifer.org/documentos/librognome/glib-strings.html
