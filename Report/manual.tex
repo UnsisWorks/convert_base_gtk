@@ -1,0 +1,183 @@
+\documentclass[letterpaper,12pt]{extarticle}%Preambulo
+\usepackage[utf8]{inputenc}%Preambulo
+\usepackage[spanish,mexico]{babel}%Preambulo
+\usepackage{ae}
+\usepackage{amsmath,amssymb,amsfonts,latexsym,cancel}%Preambulo
+\usepackage{hyperref}%Preambulo
+\usepackage[pdftex]{graphicx}%Preambulo
+\usepackage{wrapfig}%Preambulo
+\usepackage[rflt]{floatflt}%Preambulo
+\usepackage{fancyhdr}%%Pre?mbulo
+\usepackage{mathptmx}%%Pre?mbulo
+\usepackage{float}%%Pre?mbulo
+\usepackage{longtable,multirow,booktabs}%%Pre?mbulo
+%\usepackage{cite}
+\usepackage{wrapfig}%%Pre?mbulo
+\usepackage[rflt]{floatflt}%%Pre?mbulo
+\usepackage{natbib} %%Pre?mbulo
+\usepackage{multicol}%%Pre?mbulo
+\usepackage{caption}%%Pre?mbulo
+\usepackage{geometry}
+\usepackage{wrapfig}
+\usepackage{adjustbox}
+\usepackage{amsmath}
+\usepackage{parskip}
+\usepackage{tikz}
+\usepackage{lipsum}
+\usepackage{xcolor}
+\usepackage[T1]{fontenc}
+
+\captionsetup{
+       font=small,
+       labelfont=bf,
+       tableposition=top,
+       hypcap=false
+    }
+
+\DeclareGraphicsExtensions{.pdf, .png, .jpg, .PNG, .JPG}%Cuando ponemos im?genes ya no es necesario poner la extensi?n
+
+%%%FORMATO DE LA P?GINA%%%
+\textheight = 21cm %Medidas de la  p?gina
+\textwidth = 18cm  %Medidas de la p?gina
+\topmargin = -1cm  %Medidas de la p?gina    
+\oddsidemargin = -1cm %Medidas de la p?gina
+\pagestyle{fancy} %Dise?o de la p?gina
+\lhead{Universidad de la Sierra Sur}%%LeftHead
+\chead{\includegraphics[width=1cm, height=1cm]{imag//logL}}%%CenterHead
+%\lfoot{USM}
+\rhead{Licenciatura en Informática}%%RightHead
+%\lfoot{Gonz?lez Chico Juan Daniel} %Pie de pagina izquierdo
+
+\setlength{\columnsep}{7mm}%Comandos para el formato de la p?gina
+%\setlength{\parindent}{4em}%Sangr?a al comenzar un nuevo p?rrafo
+\setlength{\parindent}{0.5in}
+%\setlength{\parindent}{4em}%Sangr?a al comenzar un nuevo p?rrafo
+\setlength{\parskip}{1em}%distancia entre p?rrafos
+\renewcommand{\baselinestretch}{1.0}% Espacio entre l?nea y l?nea
+\setlength{\headheight}{33pt}
+
+\begin{document}
+
+    \begin{titlepage}
+		\begin{figure}[ht]
+		   \minipage{0.76\textwidth}
+				\includegraphics[width=4cm]{imag//logColor.jpg}
+				\label{escudoFI}
+		   \endminipage
+		   \minipage{0.32\textwidth}
+				\includegraphics[height = 4.5cm ,width=4cm]{imag//logBN.jpg}
+				\label{EscuoUNAM}
+			\endminipage
+				%%\vspace{-1cm}
+		\end{figure}
+		
+		\vspace{0.5cm}
+		
+		\begin{center}
+			\LARGE UNIVERSIDAD DE LA SIERRA SUR \\
+			\vspace{0.3cm}
+			\LARGE Instituto de Informática
+			
+			\vspace{.7cm} {\LARGE  \textbf{Hola} \\}
+
+			% Incrementamos el interlineado:
+			\vspace{.7cm} {\LARGE Labortorio de Sistemas Digitales}
+
+			% Restauramos el interlineado:
+			\vspace{.5cm}
+			\begin{center}
+
+				\LARGE{ \textbf{Alumnos:}}\\%% \textbf son negritas
+        \LARGE{Julanito}\\%% \it es letra it?lica
+				\vspace{0.5cm}
+				\textbf{Profesor:}  Dr. Alejandro Jarillo Silva \\
+				\vspace{0.5cm}
+				\textbf{Grupo:}  306
+				
+			\end{center}
+			
+			\vspace{1cm} \today
+		\end{center}
+\end{titlepage}
+
+    \newpage
+    \tableofcontents
+    \newpage
+    
+    \begin{center}
+    \textbf{ Alumno:}\\[3mm]
+    {\it Julanito}\\[3mm]
+    {\it Grupo 306}\\[3mm]
+    {\it Nombre de la práctica}\\[3mm]
+    \end{center}
+    
+    \begin{multicols}{2}
+    \section{Introducción}
+    
+    Dar un pequeña introducción del tema central de la práctica
+        
+    \section{Objetivos}
+
+	Serán presentados en clase    
+    
+    \begin{enumerate}
+    \item 
+    \item
+    \end{enumerate}
+		
+	\section{Desarrollo}
+	
+	Descripción general de la práctica
+	
+	\subsection{Materiales}	
+	
+	\begin{enumerate}
+	    \item 
+	    \item 
+	    \item 
+	    \item 
+	    \item 
+	    \item 
+	    \item 
+	    \item 
+	    \item 
+	\end{enumerate}
+	
+	\subsection{Procedimiento}
+	\renewcommand{\labelenumi}{\arabic{enumi}.}
+	\begin{enumerate}
+		\item 
+		
+		\item 
+		
+		\item
+		
+		\item
+		
+		\item
+		
+	\end{enumerate}
+    \end{multicols}
+    
+    	
+    \section{Resultados}
+    Se dscriben los resultados, puede ser a través de una tabla de mediciones
+	\subsection{Mediciones}
+
+	\begin{multicols}{2}
+	    
+	    \section{Conclusiones}
+
+Se menciona las conclusiones de la práctica	    
+	    	     %   \nocite{Cengel}
+%	        \bibliographystyle{apalike}?
+%            \bibliography{Libros.bib}
+    \end{multicols}
+    
+	\newpage
+	
+	\section{Anexo de ecuaciones}
+	
+	En caso des ser necesario se deben agregar ecuaciones que se hayan empleado
+	\cfoot{\LaTeX}
+\end{document}
