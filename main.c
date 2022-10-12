@@ -52,11 +52,17 @@ gchar binToDecimal(GString *value){
             }
             pot++;
         }
+        const gchar resultado = (gchar) result;
+        g_print("bin to dec: %d\n", resultado);
     }
-    g_print("Resultado: %f", result);
-    const gchar res = result;
-    g_print("Resultado: %s\n", &res);
-    gtk_entry_set_text(GTK_ENTRY(txtDec), &res);
+    // g_print("Resultado: %f\n", result);
+    // const gchar *res = *result;
+    gchar vali[10];
+    sprintf(vali, "%f", result);
+    g_print("Resultado cad: %s\n", vali);
+    const gchar *fina = vali;
+
+    gtk_entry_set_text(GTK_ENTRY(txtDec), fina);
 }
 // Convert binary to hexadecimal
 void binToHexa(GString *value){
@@ -135,7 +141,7 @@ static void convert (int id, GString *value) {
             }
 
             if (flag) {
-                // binToDecimal(value);
+                binToDecimal(value);
                 binToOctal(value);
             } else {
                 sendMessage(NULL, "Ingresar unicamente 0 y 1", "Aviso");
