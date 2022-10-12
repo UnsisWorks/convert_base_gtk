@@ -59,13 +59,15 @@
 \begin{document}
 
     \begin{titlepage}
+		% Mine page for add image at scale with footer image in 
 		\begin{figure}[ht]
 		   \minipage{0.76\textwidth}
 				\includegraphics[width=4cm]{imag//logColor.jpg}
 				\label{escudoFI}
 		   \endminipage
 		   \minipage{0.32\textwidth}
-				\includegraphics[height = 4.5cm ,width=4cm]{imag//logBN.jpg}
+
+				\includegraphics[height = 4.5cm ,width=4cm]{imag//logBN.jpg} 
 				\label{EscuoUNAM}
 			\endminipage
 				%%\vspace{-1cm}
@@ -78,7 +80,7 @@
 			\vspace{0.3cm}
 			\LARGE Instituto de Informática
 			
-			\vspace{.7cm} {\LARGE  \textbf{Hola} \\}
+			\vspace{.7cm} {\LARGE  \textbf{Programa de conversión de bases} \\}
 
 			% Incrementamos el interlineado:
 			\vspace{.7cm} {\LARGE Labortorio de Sistemas Digitales}
@@ -88,7 +90,7 @@
 			\begin{center}
 
 				\LARGE{ \textbf{Alumnos:}}\\%% \textbf son negritas
-        \LARGE{Julanito}\\%% \it es letra it?lica
+        \LARGE{Elietzer Jared, kevin Emmanuel}\\%% \it es letra it?lica
 				\vspace{0.5cm}
 				\textbf{Profesor:}  Dr. Alejandro Jarillo Silva \\
 				\vspace{0.5cm}
@@ -106,19 +108,50 @@
     
     \begin{center}
     \textbf{ Alumno:}\\[3mm]
-    {\it Julanito}\\[3mm]
+    {\it Elietzer Jared}\\[3mm]
+    {\it Kevin Emmanuel}\\[3mm]
     {\it Grupo 306}\\[3mm]
-    {\it Nombre de la práctica}\\[3mm]
+    {\it Convertidor de bases}\\[3mm]
     \end{center}
     
     \begin{multicols}{2}
+
+		% Inicio del documento
+
+	% Section for links in doct e index
     \section{Introducción}
     
     Dar un pequeña introducción del tema central de la práctica
+		% Coloca imagen y la centra en el espacio asignado
+		\begin{figure}[H]
+		\begin{center}
+		\includegraphics[width=4cm]{imag//logBN.jpg}
+		\caption{foto de escudo}
+		\label{figuraBN}
+		\end{center}
+		%%\vspace{-1cm}
+ 		\end{figure}
+
+		ver la figura \ref*{figuraBN}
         
     \section{Objetivos}
 
+	\subsection{sub secion}
+
 	Serán presentados en clase    
+		% Coloca imagen y la centra en el espacio asignado
+		\begin{figure}[H]
+		\begin{center}
+		\includegraphics[width=4cm]{imag//logColor.jpg}
+		\caption{foto de escudo}
+		Convertidor
+		\label{figura}
+		\end{center}
+		%%\vspace{-1cm}
+ 		\end{figure}
+
+		ver figura \ref{figura} se observa....
+
     
     \begin{enumerate}
     \item 
@@ -179,5 +212,11 @@ Se menciona las conclusiones de la práctica
 	\section{Anexo de ecuaciones}
 	
 	En caso des ser necesario se deben agregar ecuaciones que se hayan empleado
+
+	%Agrega todo lo ingresado tal cual
+	\begin{verbatim}
+		!"##$$%&%&/()
+	\end{verbatim}
+
 	\cfoot{\LaTeX}
 \end{document}

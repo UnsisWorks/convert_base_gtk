@@ -86,10 +86,10 @@ void binToOctal(GString *value){
     // Reco value left to rigth
     for (gint i = 3; i < (value->len); i += 3) {
         trunc = g_string_insert(trunc, 0, value->str);
-        trunc = g_string_erase(trunc, (i - 3), i);
+        trunc = g_string_erase(trunc, i, 0 - 1);
         g_print("truc: %s\n", trunc->str);
 
-        trunc = g_string_erase(trunc, 0, trunc->len - 1 );
+        // trunc = g_string_erase(trunc, 0, trunc->len - 1 );
         // result = g_string_append(result, binToDecimal());
     }
 }
@@ -234,7 +234,7 @@ static void calcular(GtkWidget *widget, gpointer data) {
     const gchar *hexa = gtk_entry_get_text(GTK_ENTRY(txtHexa));
     
     // Validacion de datos enviados a 1
-     if ((strcmp(bin, "") != 0)) {
+     if ((strcmp(bin, "") != 0)) {  
         count++;
         id = 0;
         value = bin;
