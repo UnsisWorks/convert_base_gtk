@@ -5,7 +5,7 @@
 GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec;
 gchar letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
 
-gchar binToDecimal(GString *value){
+gchar binToDecimal(GString *value, int push){
 
     // Create objects and var nedd
     GString *afterPoint = g_string_new(value -> str);
@@ -53,27 +53,84 @@ gchar binToDecimal(GString *value){
             pot++;
         }
         const gchar resultado = (gchar) result;
-        g_print("bin to dec: %d\n", resultado);
+        // g_print("bin to dec: %d\n", resultado);
     }
     // g_print("Resultado: %f\n", result);
     // const gchar *res = *result;
     gchar vali[10];
     sprintf(vali, "%f", result);
-    g_print("Resultado cad: %s\n", vali);
+    // g_print("Resultado cad: %s\n", vali);
     const gchar *fina = vali;
 
-    gtk_entry_set_text(GTK_ENTRY(txtDec), fina);
+    // Send request or return bvalue
+    if (push == 0) {
+        gtk_entry_set_text(GTK_ENTRY(txtDec), fina);
+    } else {
+        return vali[0];
+    }
 }
 // Convert binary to hexadecimal
 void binToHexa(GString *value){
-    for (gint i = (value->len) - 1; i <= 0; i -= 4) {
+    GString *result =  g_string_new("");
+    GString *trunc =  g_string_new("");
+    GString *request = g_string_new("");;
+    // Valid multipl to 4
+    gint difference = 0;
+    for (gint i = 4; i <= (value->len + 4); i += 4) {
+        if (i >= (value->len - 1)) {
+            difference = i - (value->len);
+        }
+    }
 
+    // Add char's for complete multi the 3
+    if (difference < 4 && difference != 0) {
+        for (gint i = 1; i <= difference; i++) {
+            g_string_prepend_c(value, '0');
+        }
+        g_print("mod cadena: %s longi: %ld\n", value->str, value->len);
+    }
+    // Reco value left to rigth
+    gint rr = (value->len) + 4;
+    for (gint i = 4; i < rr; i += 4) {
+        trunc = g_string_insert(trunc, 0, value->str);
+        // Recorta 4 numeros
+        trunc = g_string_erase(trunc, i, 0 - 1);
+        trunc = g_string_erase(trunc, 0, i - 4);
+        // request = g_string_erase(request, 0, 0 - 1);
+        // Respuesta parcial en trunc
+        request = g_string_append_c(request, binToDecimal(trunc, 1));
+        switch (request->str){
+
+            case '3':
+                break;
+            case '4':
+                break;
+            case '5':
+                break;
+            case '6':
+                break;
+            case '7':
+                break;
+            case '8':
+                break;
+            case '9':
+            default:
+                break;
+
+        }
+        g_print("i: %d  truc: %s; result = %s\n", i, trunc->str, request->str);
+
+        // Vacia la cadena
+        trunc = g_string_erase(trunc, 0, 0 - 1);
+        request = g_string_erase(request, 0, 0 - 1);
+        // result = g_string_append(result, binToDecimal());
     }
 }
 // Convert binary to octal
 void binToOctal(GString *value){
     GString *result =  g_string_new("");
     GString *trunc =  g_string_new("");
+    GString *request = g_string_new("");;
     // Valid multipl to 3
     gint difference = 0;
     for (gint i = 3; i <= (value->len + 3); i += 3) {
@@ -90,14 +147,23 @@ void binToOctal(GString *value){
         g_print("mod cadena: %s longi: %ld\n", value->str, value->len);
     }
     // Reco value left to rigth
-    for (gint i = 3; i < (value->len); i += 3) {
+    gint rr = (value->len) + 3;
+    for (gint i = 3; i < rr; i += 3) {
         trunc = g_string_insert(trunc, 0, value->str);
+        // Recorta 3 numeros
         trunc = g_string_erase(trunc, i, 0 - 1);
-        g_print("truc: %s\n", trunc->str);
+        trunc = g_string_erase(trunc, 0, i - 3);
+        // request = g_string_erase(request, 0, 0 - 1);
+        request = g_string_append_c(request, binToDecimal(trunc, 1));
+        g_print("i: %d  truc: %s; result = %s\n", i, trunc->str, request->str);
 
-        // trunc = g_string_erase(trunc, 0, trunc->len - 1 );
+        // Vacia la cadena
+        trunc = g_string_erase(trunc, 0, 0 - 1);
         // result = g_string_append(result, binToDecimal());
     }
+
+    // Set value at entry widget
+    gtk_entry_set_text(GTK_ENTRY(txtOcta), request->str);
 }
 // Crate new window and show messaege 
 static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
@@ -134,15 +200,16 @@ static void convert (int id, GString *value) {
             // Iterat value (except char end string '\0')
             for (gint i = 0; i <= (value->len) - 1; i++) {
                 // Compare chars the object string with '0', '1' y '.'
-                if (!((value->str[i] == '0') || value->str[i] == '1' || value->str[i] == '.')) {
+                if (!((value->str[i] == '0') || value->str[i] == '1'/* || value->str[i] == '.'*/)) {
                     flag = FALSE;
                     break;
                 }
             }
 
             if (flag) {
-                binToDecimal(value);
-                binToOctal(value);
+                // binToDecimal(value, 0);
+                // binToOctal(value);
+                binToHexa(value);
             } else {
                 sendMessage(NULL, "Ingresar unicamente 0 y 1", "Aviso");
             }
