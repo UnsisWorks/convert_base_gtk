@@ -5,7 +5,7 @@
 GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec;
 gchar letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
 
-gchar binToDecimal(GString *value, int push){
+const gchar* binToDecimal(GString *value, int push){
 
     // Create objects and var nedd
     GString *afterPoint = g_string_new(value -> str);
@@ -58,7 +58,7 @@ gchar binToDecimal(GString *value, int push){
     // g_print("Resultado: %f\n", result);
     // const gchar *res = *result;
     gchar vali[10];
-    sprintf(vali, "%f", result);
+    sprintf(vali, "%.1f", result);
     // g_print("Resultado cad: %s\n", vali);
     const gchar *fina = vali;
 
@@ -66,7 +66,8 @@ gchar binToDecimal(GString *value, int push){
     if (push == 0) {
         gtk_entry_set_text(GTK_ENTRY(txtDec), fina);
     } else {
-        return vali[0];
+        const gchar *retu = vali;
+        return retu;
     }
 }
 // Convert binary to hexadecimal
@@ -98,27 +99,11 @@ void binToHexa(GString *value){
         trunc = g_string_erase(trunc, 0, i - 4);
         // request = g_string_erase(request, 0, 0 - 1);
         // Respuesta parcial en trunc
+        // cast gchar *val = binToDecimal(trunc, 1);
+        //g_print("Valor de vall: %s\n", val);
         request = g_string_append_c(request, binToDecimal(trunc, 1));
-        switch (request->str){
-
-            case '3':
-                break;
-            case '4':
-                break;
-            case '5':
-                break;
-            case '6':
-                break;
-            case '7':
-                break;
-            case '8':
-                break;
-            case '9':
-            default:
-                break;
-
-        }
-        g_print("i: %d  truc: %s; result = %s\n", i, trunc->str, request->str);
+        
+        g_print("i: %d  truc: %s; result = %s\n", i, trunc->str, val);
 
         // Vacia la cadena
         trunc = g_string_erase(trunc, 0, 0 - 1);
@@ -154,7 +139,7 @@ void binToOctal(GString *value){
         trunc = g_string_erase(trunc, i, 0 - 1);
         trunc = g_string_erase(trunc, 0, i - 3);
         // request = g_string_erase(request, 0, 0 - 1);
-        request = g_string_append_c(request, binToDecimal(trunc, 1));
+        request = g_string_append(request, binToDecimal(trunc, 1));
         g_print("i: %d  truc: %s; result = %s\n", i, trunc->str, request->str);
 
         // Vacia la cadena
@@ -207,9 +192,9 @@ static void convert (int id, GString *value) {
             }
 
             if (flag) {
-                // binToDecimal(value, 0);
-                // binToOctal(value);
-                binToHexa(value);
+                binToDecimal(value, 0);
+                binToOctal(value);
+                // binToHexa(value);
             } else {
                 sendMessage(NULL, "Ingresar unicamente 0 y 1", "Aviso");
             }
@@ -306,7 +291,7 @@ static void calcular(GtkWidget *widget, gpointer data) {
     const gchar *deci = gtk_entry_get_text(GTK_ENTRY(txtDec));
     const gchar *hexa = gtk_entry_get_text(GTK_ENTRY(txtHexa));
     
-    // Validacion de datos enviados a 1
+    // Validacion de datos enviados a 1                                                                                                                                                                                                                                                                                
      if ((strcmp(bin, "") != 0)) {  
         count++;
         id = 0;
