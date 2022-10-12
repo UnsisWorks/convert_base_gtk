@@ -5,14 +5,14 @@
 GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec;
 gchar letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
 
-void binToDecimal(const gchar *reply, GString *value){
+gchar binToDecimal(GString *value){
 
+    // Create objects and var nedd
     GString *afterPoint = g_string_new(value -> str);
     GString *beforePoint = g_string_new(value -> str);
 
     gboolean flag = FALSE;
-    gint after = 0;
-    gint before = 0;
+    gfloat help = 0;
     gint pot = 0;
     gfloat result = 0;
 
@@ -32,18 +32,67 @@ void binToDecimal(const gchar *reply, GString *value){
         if (beforePoint -> str[i] == '1') {
             pot = (beforePoint->len - 1) - i;
             g_print("value: %c  pot: %d  ", (beforePoint -> str[i]), pot);
-            after = pow(2, pot);
-            result += after;
-            g_print(" =  %d +=  %f\n", after, result);
+            help = pow(2, pot);
+            result += help;
+            g_print(" =  %f +=  %f\n", help, result);
         }
     }
 
     if (flag) {
+        help = 0;
+        pot = 1;
         // Create cod after point if exist
-        
+        for (gint i = 0; i < (afterPoint -> len); i++) {
+            if (afterPoint -> str[i] == '1') {
+                g_print("value: %c  pot: %d  ", (afterPoint -> str[i]), pot);
+                // Definition Math 2^-n = 1 / (2^n)
+                help = 1 / (pow(2, pot));
+                result += help;
+                g_print(" =  %f +=  %f\n", help, result);
+            }
+            pot++;
+        }
+    }
+    g_print("Resultado: %f", result);
+    const gchar res = result;
+    g_print("Resultado: %s\n", &res);
+    gtk_entry_set_text(GTK_ENTRY(txtDec), &res);
+}
+// Convert binary to hexadecimal
+void binToHexa(GString *value){
+    for (gint i = (value->len) - 1; i <= 0; i -= 4) {
+
     }
 }
+// Convert binary to octal
+void binToOctal(GString *value){
+    GString *result =  g_string_new("");
+    GString *trunc =  g_string_new("");
+    // Valid multipl to 3
+    gint difference = 0;
+    for (gint i = 3; i <= (value->len + 3); i += 3) {
+        if (i >= (value->len - 1)) {
+            difference = i - (value->len);
+        }
+    }
 
+    // Add char's for complete multi the 3
+    if (difference < 3 && difference != 0) {
+        for (gint i = 1; i <= difference; i++) {
+            g_string_prepend_c(value, '0');
+        }
+        g_print("mod cadena: %s longi: %ld\n", value->str, value->len);
+    }
+    // Reco value left to rigth
+    for (gint i = 3; i < (value->len); i += 3) {
+        trunc = g_string_insert(trunc, 0, value->str);
+        trunc = g_string_erase(trunc, (i - 3), i);
+        g_print("truc: %s\n", trunc->str);
+
+        trunc = g_string_erase(trunc, 0, trunc->len - 1 );
+        // result = g_string_append(result, binToDecimal());
+    }
+}
 // Crate new window and show messaege 
 static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
     GtkWidget *dialog, *label, *contentArea;
@@ -86,7 +135,8 @@ static void convert (int id, GString *value) {
             }
 
             if (flag) {
-                binToDecimal(reply, value);
+                // binToDecimal(value);
+                binToOctal(value);
             } else {
                 sendMessage(NULL, "Ingresar unicamente 0 y 1", "Aviso");
             }
