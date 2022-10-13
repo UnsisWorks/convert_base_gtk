@@ -112,8 +112,10 @@ void DecToHexaOcta(GString *value, int base){
     }
     if (base == 16) {
         gtk_entry_set_text(GTK_ENTRY(txtHexa), mod->str);
-    } else {
+    } else if (base == 8) {
         gtk_entry_set_text(GTK_ENTRY(txtOcta), mod->str);
+    } else {
+        
     }
 }
 
@@ -160,7 +162,7 @@ void DecToHexaOctaDirect(gint64 decimal, int base){
     if (base == 16) {
         gtk_entry_set_text(GTK_ENTRY(txtHexa), mod->str);
     } else {
-        //gtk_entry_set_text(GTK_ENTRY(txtOcta), mod->str);
+        gtk_entry_set_text(GTK_ENTRY(txtBin), mod->str);
     }
 }
 
@@ -227,6 +229,11 @@ gint64 OctalToDecimal(GString *value, int flag) {
     } else {
         return result;
     }
+}
+
+// Convert decimal to binary
+void decToBin(gint64 value) {
+
 }
 // Crate new window and show messaege 
 static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
@@ -298,7 +305,11 @@ static void convert (int id, GString *value) {
                 if (flag) {
                     g_print("Continue\n");
                     OctalToDecimal(value, 0);
+                    // Decimal to hexadecimal
                     DecToHexaOctaDirect(OctalToDecimal(value, 1), 16);
+                    // Decimal to binary
+                    DecToHexaOctaDirect(OctalToDecimal(value, 1), 2);
+                    
 
                 } else {
                     sendMessage(NULL, "La base octal opera en el rango de numeros 0 - 7", "Advertencia");
