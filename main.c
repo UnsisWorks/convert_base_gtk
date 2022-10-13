@@ -1,6 +1,7 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 
 GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec;
 gchar letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
@@ -70,16 +71,50 @@ gchar binToDecimal(GString *value, int push){
     }
 }
 // Convert binary to hexadecimal
-void binToHexa(GString *value){
+void binToHexaOcta(GString *value, int base){
+
     GString *mod = g_string_new("");
     int result;
     gint64 decimal = g_ascii_strtoll(value->str, NULL, 2);
     result = decimal;
+    char aux[10];
+
     while (result != 0) {
-        mod = g_string_append_(mod, sprintf());
-        result = 
+        // g_print("itera\n");
+        // g_print("%d / 16 =", result );
+        sprintf(aux, "%d", (result % base));
+        result = result / base;
+        g_print("mod: %s\n", aux);
+
+        if (strcmp(aux, "10") == 0) {
+            strcpy(aux, "A");
+        } else
+        if (strcmp(aux, "11") == 0) {
+            strcpy(aux, "B");
+        } else
+        if (strcmp(aux, "12") == 0) {
+            strcpy(aux, "C");
+        } else
+        if (strcmp(aux, "13") == 0) {
+            strcpy(aux, "D");
+        } else
+        if (strcmp(aux, "14") == 0) {
+            strcpy(aux, "E");
+        } else
+        if (strcmp(aux, "15") == 0) {
+            strcpy(aux, "F");
+        } else {
+            g_print("normal ");
+        }
+        g_print("mod2: %s\n", aux);
+        
+        mod = g_string_prepend(mod, aux);
     }
-    
+    if (base == 16) {
+        gtk_entry_set_text(GTK_ENTRY(txtHexa), mod->str);
+    } else {
+        gtk_entry_set_text(GTK_ENTRY(txtOcta), mod->str);
+    }
 }
 // Convert binary to octal
 void binToOctal(GString *value){
@@ -119,6 +154,18 @@ void binToOctal(GString *value){
 
     // Set value at entry widget
     gtk_entry_set_text(GTK_ENTRY(txtOcta), request->str);
+}
+// Octal to Decimal
+void OctalToDecimal(GString *value) {
+    int result = 0;
+    int pot = 0;
+    // Rocort left to rigth octal number
+    for (gint i = (value->len - 1); i >= 0; i--) {
+        pot = (value->len - 1) - i;
+        // n * 8^pot
+        result = value->str[i] * (pow(8, pot));
+        g_print("%c * 8 ^%d = %d\n", value->str[i], pot, result);
+    }
 }
 // Crate new window and show messaege 
 static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
@@ -162,25 +209,9 @@ static void convert (int id, GString *value) {
             }
 
             if (flag) {
-                // binToDecimal(value, 0);
-                // binToOctal(value);
-                // binToHexa(value);
-                gint64 dec = g_ascii_strtoll(value->str, NULL, 2);
-                gint64 hexa = g_ascii_strtoll(value->str, NULL, 3.5);
-                gint64 octal = g_ascii_strtoll(value->str, NULL, 2.6);
-
-                gchar decM[20];
-                sprintf(decM, "%ld", dec);
-                gchar hexaM[20];
-                sprintf(hexaM, "%ld", hexa);
-                gchar octalM[20];
-                sprintf(octalM, "%ld", octal);
-
-                gtk_entry_set_text(GTK_ENTRY(txtDec), decM);
-                gtk_entry_set_text(GTK_ENTRY(txtHexa), hexaM);
-                gtk_entry_set_text(GTK_ENTRY(txtOcta), octalM);
-
-                
+                binToDecimal(value, 0);
+                binToHexaOcta(value, 16);
+                binToHexaOcta(value, 8);
             } else {
                 sendMessage(NULL, "Ingresar unicamente 0 y 1", "Aviso");
             }
@@ -205,24 +236,10 @@ static void convert (int id, GString *value) {
                 }
                 if (flag) {
                     g_print("Continue\n");
-                    // Funcion para convertir de gstring a numero dep. la base. 0 para convertir tal cual
-                    gint64 valInt = g_ascii_strtoll(value->str, NULL, 0);
-                    g_print("%ld\n", valInt);
-
-                    gint64 dec = g_ascii_strtoll(value->str, NULL, 10);
-                    gint64 hexa = g_ascii_strtoll(value->str, NULL, 16);
-                    gint64 bin = g_ascii_strtoll(value->str, NULL, 2);
-
-                    gchar decM[20];
-                    sprintf(decM, "%ld", dec);
-                    gchar hexaM[20];
-                    sprintf(hexaM, "%ld", hexa);
-                    gchar binM[20];
-                    sprintf(binM, "%ld", bin);
-
-                    gtk_entry_set_text(GTK_ENTRY(txtDec), decM);
-                    gtk_entry_set_text(GTK_ENTRY(txtHexa), hexaM);
-                    gtk_entry_set_text(GTK_ENTRY(txtBin), binM);
+                    // binToHexaOcta(value, 16);
+                    // gint64 decimal = g_ascii_strtoll(value->str, NULL, 2);
+                    // g_print("decimal: %ld\n", decimal);
+                    OctalToDecimal(value);
 
                 } else {
                     sendMessage(NULL, "La base octal opera en el rango de numeros 0 - 7", "Advertencia");
