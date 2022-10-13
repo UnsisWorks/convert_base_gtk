@@ -99,25 +99,7 @@ void binToHexa(GString *value){
         // request = g_string_erase(request, 0, 0 - 1);
         // Respuesta parcial en trunc
         request = g_string_append_c(request, binToDecimal(trunc, 1));
-        switch (request->str){
 
-            case '3':
-                break;
-            case '4':
-                break;
-            case '5':
-                break;
-            case '6':
-                break;
-            case '7':
-                break;
-            case '8':
-                break;
-            case '9':
-            default:
-                break;
-
-        }
         g_print("i: %d  truc: %s; result = %s\n", i, trunc->str, request->str);
 
         // Vacia la cadena
@@ -209,7 +191,23 @@ static void convert (int id, GString *value) {
             if (flag) {
                 // binToDecimal(value, 0);
                 // binToOctal(value);
-                binToHexa(value);
+                // binToHexa(value);
+                gint64 dec = g_ascii_strtoll(value->str, NULL, 10);
+                gint64 hexa = g_ascii_strtoll(value->str, NULL, 16);
+                gint64 octal = g_ascii_strtoll(value->str, NULL, 8);
+
+                gchar decM[20];
+                sprintf(decM, "%ld", dec);
+                gchar hexaM[20];
+                sprintf(hexaM, "%ld", hexa);
+                gchar octalM[20];
+                sprintf(octalM, "%ld", octal);
+
+                gtk_entry_set_text(GTK_ENTRY(txtDec), decM);
+                gtk_entry_set_text(GTK_ENTRY(txtHexa), hexaM);
+                gtk_entry_set_text(GTK_ENTRY(txtOcta), octalM);
+
+                
             } else {
                 sendMessage(NULL, "Ingresar unicamente 0 y 1", "Aviso");
             }
@@ -238,7 +236,20 @@ static void convert (int id, GString *value) {
                     gint64 valInt = g_ascii_strtoll(value->str, NULL, 0);
                     g_print("%ld\n", valInt);
 
-                    /* Convert base 8 at rest the bases */
+                    gint64 dec = g_ascii_strtoll(value->str, NULL, 10);
+                    gint64 hexa = g_ascii_strtoll(value->str, NULL, 16);
+                    gint64 bin = g_ascii_strtoll(value->str, NULL, 2);
+
+                    gchar decM[20];
+                    sprintf(decM, "%ld", dec);
+                    gchar hexaM[20];
+                    sprintf(hexaM, "%ld", hexa);
+                    gchar binM[20];
+                    sprintf(binM, "%ld", bin);
+
+                    gtk_entry_set_text(GTK_ENTRY(txtDec), decM);
+                    gtk_entry_set_text(GTK_ENTRY(txtHexa), hexaM);
+                    gtk_entry_set_text(GTK_ENTRY(txtBin), binM);
 
                 } else {
                     sendMessage(NULL, "La base octal opera en el rango de numeros 0 - 7", "Advertencia");
