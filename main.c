@@ -71,42 +71,15 @@ gchar binToDecimal(GString *value, int push){
 }
 // Convert binary to hexadecimal
 void binToHexa(GString *value){
-    GString *result =  g_string_new("");
-    GString *trunc =  g_string_new("");
-    GString *request = g_string_new("");;
-    // Valid multipl to 4
-    gint difference = 0;
-    for (gint i = 4; i <= (value->len + 4); i += 4) {
-        if (i >= (value->len - 1)) {
-            difference = i - (value->len);
-        }
+    GString *mod = g_string_new("");
+    int result;
+    gint64 decimal = g_ascii_strtoll(value->str, NULL, 2);
+    result = decimal;
+    while (result != 0) {
+        mod = g_string_append_(mod, sprintf());
+        result = 
     }
-
-    // Add char's for complete multi the 3
-    if (difference < 4 && difference != 0) {
-        for (gint i = 1; i <= difference; i++) {
-            g_string_prepend_c(value, '0');
-        }
-        g_print("mod cadena: %s longi: %ld\n", value->str, value->len);
-    }
-    // Reco value left to rigth
-    gint rr = (value->len) + 4;
-    for (gint i = 4; i < rr; i += 4) {
-        trunc = g_string_insert(trunc, 0, value->str);
-        // Recorta 4 numeros
-        trunc = g_string_erase(trunc, i, 0 - 1);
-        trunc = g_string_erase(trunc, 0, i - 4);
-        // request = g_string_erase(request, 0, 0 - 1);
-        // Respuesta parcial en trunc
-        request = g_string_append_c(request, binToDecimal(trunc, 1));
-
-        g_print("i: %d  truc: %s; result = %s\n", i, trunc->str, request->str);
-
-        // Vacia la cadena
-        trunc = g_string_erase(trunc, 0, 0 - 1);
-        request = g_string_erase(request, 0, 0 - 1);
-        // result = g_string_append(result, binToDecimal());
-    }
+    
 }
 // Convert binary to octal
 void binToOctal(GString *value){
