@@ -192,9 +192,9 @@ static void convert (int id, GString *value) {
                 // binToDecimal(value, 0);
                 // binToOctal(value);
                 // binToHexa(value);
-                gint64 dec = g_ascii_strtoll(value->str, NULL, 10);
-                gint64 hexa = g_ascii_strtoll(value->str, NULL, 16);
-                gint64 octal = g_ascii_strtoll(value->str, NULL, 8);
+                gint64 dec = g_ascii_strtoll(value->str, NULL, 2);
+                gint64 hexa = g_ascii_strtoll(value->str, NULL, 3.5);
+                gint64 octal = g_ascii_strtoll(value->str, NULL, 2.6);
 
                 gchar decM[20];
                 sprintf(decM, "%ld", dec);
