@@ -76,6 +76,7 @@ void DecToHexaOcta(GString *value, int base){
     GString *mod = g_string_new("");
     int result;
     gint64 decimal = g_ascii_strtoll(value->str, NULL, 2);
+    g_print("gint64: %ld\n", decimal);
     result = decimal;
     char aux[10];
 
@@ -114,8 +115,8 @@ void DecToHexaOcta(GString *value, int base){
         gtk_entry_set_text(GTK_ENTRY(txtHexa), mod->str);
     } else if (base == 8) {
         gtk_entry_set_text(GTK_ENTRY(txtOcta), mod->str);
-    } else {
-        
+    } else if (base == 2){
+        gtk_entry_set_text(GTK_ENTRY(txtBin), mod->str);
     }
 }
 
@@ -161,7 +162,9 @@ void DecToHexaOctaDirect(gint64 decimal, int base){
     }
     if (base == 16) {
         gtk_entry_set_text(GTK_ENTRY(txtHexa), mod->str);
-    } else {
+    } else if (base == 8) {
+        gtk_entry_set_text(GTK_ENTRY(txtOcta), mod->str);
+    } else if (base == 2){
         gtk_entry_set_text(GTK_ENTRY(txtBin), mod->str);
     }
 }
@@ -232,8 +235,45 @@ gint64 OctalToDecimal(GString *value, int flag) {
 }
 
 // Convert decimal to binary
-void decToBin(gint64 value) {
+gint64 hexaToDec(GString *value, int flag) {
+    int pot = 0;
+    char aux;
+    int digit = 0;
+    gint64 result = 0;
 
+    // invert value
+    for (gint i = (value->len - 1); i >= 0; i--) {
+        pot = (value->len - 1) - i;
+        aux = (value->str[i]);
+        if (g_ascii_isdigit(value->str[i])) {
+            digit = atoi(&aux);
+            result += digit * (pow(16, pot));
+        } else {
+            // Convert char to int
+            if (aux == 'A') {
+                digit = 10;
+            } else if (aux == 'B') {
+                digit = 11;
+            } else if (aux == 'C') {
+                digit = 12;
+            } else if (aux == 'D') {
+                digit = 13;
+            } else if (aux == 'E') {
+                digit = 14;
+            } else if (aux == 'F') {
+                digit = 15;
+            }
+            result += digit * (pow(16, pot));
+        }
+        g_print("%c * 16^%d = %ld\n", aux, pot, result);
+    }
+    if (flag == 0) {
+        gchar res[20];
+        sprintf(res, "%ld", result);
+        gtk_entry_set_text(GTK_ENTRY(txtDec), res);
+    } else {
+        return result;
+    }
 }
 // Crate new window and show messaege 
 static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
@@ -346,17 +386,27 @@ static void convert (int id, GString *value) {
             // Decition final
             if (coin == (value -> len)) {
                 g_print("continue\n");
-                /* Convert actal to rest bases */
+                // set base decimal 
+                hexaToDec(value, 0);
+                // set base octal
+                DecToHexaOctaDirect(hexaToDec(value, 1), 8);
+                // set base binary
+                DecToHexaOctaDirect(hexaToDec(value, 1), 2);
+
             } else {
                 sendMessage(NULL, "Numero octal no valido", "Aviso");
             }
             break;
+        // Decimal to rest bases
         case 3:
             band = g_ascii_strtoll(value -> str, NULL, 0);
-            g_print("cod: %ld\n", band);
             if (band != 0) {
                 g_print("continue\n");
                 /* Convert decimal to rest bases */
+
+                DecToHexaOctaDirect(band, 2);
+                DecToHexaOctaDirect(band, 8);
+                DecToHexaOctaDirect(band, 16);
             } else {
                 sendMessage(NULL, "El decimal debe ser un numero diferente de 0", "Aviso");
             }
