@@ -478,15 +478,19 @@ static void activate(GtkApplication *app, gpointer user_data) {
     // Create entry text with label 
     txtBin = gtk_entry_new();
     labelBin = gtk_label_new("Binario");
+    gtk_widget_set_size_request (GTK_WIDGET(txtBin), 220, 22);
 
     txtOcta = gtk_entry_new();
     labelOcta = gtk_label_new("Octal");
+    gtk_widget_set_size_request (GTK_WIDGET(txtOcta), 220, 22);
 
     txtHexa = gtk_entry_new();
     labelHexa = gtk_label_new("Hexadecimal");
+    gtk_widget_set_size_request (GTK_WIDGET(txtHexa), 220, 22);
 
     txtDec = gtk_entry_new();
     labelDec = gtk_label_new("decimal");
+    gtk_widget_set_size_request (GTK_WIDGET(txtDec), 220, 22);
 
     // Add witgets at fixed with position
     gtk_fixed_put(GTK_FIXED(fixed), txtBin, 220, 100);
