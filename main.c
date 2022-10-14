@@ -498,10 +498,10 @@ static void activate(GtkApplication *app, gpointer user_data) {
     gtk_fixed_put(GTK_FIXED(fixed), txtDec, 220, 300);
     gtk_fixed_put(GTK_FIXED(fixed), txtHexa, 220, 400);
 
-    gtk_fixed_put(GTK_FIXED(fixed), labelBin, 220, 85);
-    gtk_fixed_put(GTK_FIXED(fixed), labelOcta, 220, 185);
-    gtk_fixed_put(GTK_FIXED(fixed), labelDec, 220, 285);
-    gtk_fixed_put(GTK_FIXED(fixed), labelHexa, 220, 385);
+    gtk_fixed_put(GTK_FIXED(fixed), labelBin, 305, 85);
+    gtk_fixed_put(GTK_FIXED(fixed), labelOcta, 305, 185);
+    gtk_fixed_put(GTK_FIXED(fixed), labelDec, 305, 285);
+    gtk_fixed_put(GTK_FIXED(fixed), labelHexa, 290, 385);
 
     // Create window aplication
     window = gtk_application_window_new(app);
