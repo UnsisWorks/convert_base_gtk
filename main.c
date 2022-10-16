@@ -16,7 +16,7 @@ gchar binToDecimal(GString *value, int push){
     gboolean flag = FALSE;
     gfloat help = 0;
     gint pot = 0;
-    gfloat result = 0;
+    gint result = 0;
 
     // Separete string for point
     for (gint i = 0; i < value->len; i++) {
@@ -27,16 +27,16 @@ gchar binToDecimal(GString *value, int push){
             break;
         } 
     }
-    g_print("before: %s   After: %s  \n", beforePoint -> str, afterPoint -> str);
+    // g_print("before: %s   After: %s  \n", beforePoint -> str, afterPoint -> str);
 
     // Convert part before at point
     for (gint i = (beforePoint -> len) - 1; i >= 0; i--) {
         if (beforePoint -> str[i] == '1') {
             pot = (beforePoint->len - 1) - i;
-            g_print("value: %c  pot: %d  ", (beforePoint -> str[i]), pot);
+            // g_print("value: %c  pot: %d  ", (beforePoint -> str[i]), pot);
             help = pow(2, pot);
             result += help;
-            g_print(" =  %f +=  %f\n", help, result);
+            // g_print(" =  %f +=  %d\n", help, result);
         }
     }
 
@@ -50,7 +50,7 @@ gchar binToDecimal(GString *value, int push){
                 // Definition Math 2^-n = 1 / (2^n)
                 help = 1 / (pow(2, pot));
                 result += help;
-                g_print(" =  %f +=  %f\n", help, result);
+                g_print(" =  %f +=  %d\n", help, result);
             }
             pot++;
         }
@@ -60,7 +60,7 @@ gchar binToDecimal(GString *value, int push){
     // g_print("Resultado: %f\n", result);
     // const gchar *res = *result;
     gchar vali[10];
-    sprintf(vali, "%f", result);
+    sprintf(vali, "%d", result);
     // g_print("Resultado cad: %s\n", vali);
     const gchar *fina = vali;
 
@@ -77,7 +77,7 @@ void DecToHexaOcta(GString *value, int base){
     GString *mod = g_string_new("");
     int result;
     gint64 decimal = g_ascii_strtoll(value->str, NULL, 2);
-    g_print("gint64: %ld\n", decimal);
+    g_print("decimal: %ld\n", decimal);
     result = decimal;
     char aux[10];
 
@@ -260,13 +260,13 @@ static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
 }
 
 // Format BCD to decimal
-gint64 bcdToDecimal(GString *value, int flag) {
+int bcdToDecimal(GString *value, int flag) {
     GString *result =  g_string_new("");
     GString *trunc =  g_string_new("");
     GString *request = g_string_new("");;
     // Valid multipl to 4
     gint difference = 0;
-    for (gint i = 4; i <= (value->len + 4); i += 3) {
+    for (gint i = 4; i <= (value->len + 4); i += 4) {
         if (i >= (value->len - 1)) {
             difference = i - (value->len);
         }
@@ -283,15 +283,24 @@ gint64 bcdToDecimal(GString *value, int flag) {
         trunc = g_string_insert(trunc, 0, value->str);
         // Recorta 3 numeros
         trunc = g_string_erase(trunc, i, 0 - 1);
-        trunc = g_string_erase(trunc, 0, i - 3);
-        // request = g_string_erase(request, 0, 0 - 1);
+        trunc = g_string_erase(trunc, 0, i - 4);
+        g_print("trunc: %s\n", trunc->str);
         request = g_string_append_c(request, binToDecimal(trunc, 1));
-        g_print("i: %d  truc: %s; result = %s\n", i, trunc->str, request->str);
+        // g_print("i: %d  truc: %s; result = %s\n", i, trunc->str, request->str);
 
         // Vacia la cadena
         trunc = g_string_erase(trunc, 0, 0 - 1);
     }
-    g_print("Valor: %s", value->str);
+    g_print("Valor: %s\n", request->str);
+    if (flag == 0) {
+        g_print("set Value\n");
+        gtk_entry_set_text(GTK_ENTRY(txtDec), request->str);
+    } else {
+        int retu = 0;
+        retu = atoi(request->str);
+        g_print ("return: %d\n", retu);
+        return retu;
+    }
 } 
 
 // Convert input a bases rest
@@ -419,12 +428,18 @@ static void convert (int id, GString *value) {
             }
 
             if (flag) {
-                bcdToDecimal(value, 1);
+                bcdToDecimal(value, 0);
+                band = (gint64) bcdToDecimal(value, 1);
+                g_print("Value band: %ld\n", band);
+                DecToHexaOctaDirect(band, 16);
+                DecToHexaOctaDirect(band, 8);
+                DecToHexaOctaDirect(band, 2);
             } else {
                 sendMessage(NULL, "Ingresar unicamente 0 y 1", "Aviso");
             }
             break;
         default:
+            g_string_free(value, TRUE);
             break;
     }
 }
@@ -477,6 +492,7 @@ static void calcular(GtkWidget *widget, gpointer data) {
 }
 void clearEntrys() {
     if(bandCheck == 1) {
+        gtk_entry_set_text(GTK_ENTRY(txtBcd), "");
         gtk_entry_set_text(GTK_ENTRY(txtBin), "");
         gtk_entry_set_text(GTK_ENTRY(txtDec), "");
         gtk_entry_set_text(GTK_ENTRY(txtHexa), "");
@@ -484,6 +500,7 @@ void clearEntrys() {
     }
 }
 void clearEntrysButton(){
+        gtk_entry_set_text(GTK_ENTRY(txtBcd), "");
         gtk_entry_set_text(GTK_ENTRY(txtBin), "");
         gtk_entry_set_text(GTK_ENTRY(txtDec), "");
         gtk_entry_set_text(GTK_ENTRY(txtHexa), "");
