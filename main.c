@@ -3,8 +3,9 @@
 #include <math.h>
 #include <string.h>
 
-GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec;
+GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec, *txtBcd , *buttonClear, *buttonClearBox;
 gchar letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
+int bandCheck = 0;
 
 gchar binToDecimal(GString *value, int push){
 
@@ -169,46 +170,6 @@ void DecToHexaOctaDirect(gint64 decimal, int base){
     }
 }
 
-// Convert binary to octal
-void binToOctal(GString *value){
-    GString *result =  g_string_new("");
-    GString *trunc =  g_string_new("");
-    GString *request = g_string_new("");;
-    // Valid multipl to 3
-    gint difference = 0;
-    for (gint i = 3; i <= (value->len + 3); i += 3) {
-        if (i >= (value->len - 1)) {
-            difference = i - (value->len);
-        }
-    }
-
-    // Add char's for complete multi the 3
-    if (difference < 3 && difference != 0) {
-        for (gint i = 1; i <= difference; i++) {
-            g_string_prepend_c(value, '0');
-        }
-        g_print("mod cadena: %s longi: %ld\n", value->str, value->len);
-    }
-    // Reco value left to rigth
-    gint rr = (value->len) + 3;
-    for (gint i = 3; i < rr; i += 3) {
-        trunc = g_string_insert(trunc, 0, value->str);
-        // Recorta 3 numeros
-        trunc = g_string_erase(trunc, i, 0 - 1);
-        trunc = g_string_erase(trunc, 0, i - 3);
-        // request = g_string_erase(request, 0, 0 - 1);
-        request = g_string_append_c(request, binToDecimal(trunc, 1));
-        g_print("i: %d  truc: %s; result = %s\n", i, trunc->str, request->str);
-
-        // Vacia la cadena
-        trunc = g_string_erase(trunc, 0, 0 - 1);
-        // result = g_string_append(result, binToDecimal());
-    }
-
-    // Set value at entry widget
-    gtk_entry_set_text(GTK_ENTRY(txtOcta), request->str);
-}
-
 // Octal to Decimal
 gint64 OctalToDecimal(GString *value, int flag) {
     gint64 result = 0;
@@ -297,6 +258,41 @@ static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
     gtk_container_add(GTK_CONTAINER(contentArea), label);
     gtk_widget_show_all(dialog);
 }
+
+// Format BCD to decimal
+gint64 bcdToDecimal(GString *value, int flag) {
+    GString *result =  g_string_new("");
+    GString *trunc =  g_string_new("");
+    GString *request = g_string_new("");;
+    // Valid multipl to 4
+    gint difference = 0;
+    for (gint i = 4; i <= (value->len + 4); i += 3) {
+        if (i >= (value->len - 1)) {
+            difference = i - (value->len);
+        }
+    }
+
+    // Add char's for complete multi the 3
+    if (difference < 4 && difference != 0) {
+        for (gint i = 1; i <= difference; i++) {
+            g_string_prepend_c(value, '0');
+        }
+        g_print("mod cadena bcd: %s longi: %ld\n", value->str, value->len);
+    }
+    for (gint i = 4; i < (value -> len) + 4; i+=4) {
+        trunc = g_string_insert(trunc, 0, value->str);
+        // Recorta 3 numeros
+        trunc = g_string_erase(trunc, i, 0 - 1);
+        trunc = g_string_erase(trunc, 0, i - 3);
+        // request = g_string_erase(request, 0, 0 - 1);
+        request = g_string_append_c(request, binToDecimal(trunc, 1));
+        g_print("i: %d  truc: %s; result = %s\n", i, trunc->str, request->str);
+
+        // Vacia la cadena
+        trunc = g_string_erase(trunc, 0, 0 - 1);
+    }
+    g_print("Valor: %s", value->str);
+} 
 
 // Convert input a bases rest
 static void convert (int id, GString *value) {
@@ -411,6 +407,23 @@ static void convert (int id, GString *value) {
                 sendMessage(NULL, "El decimal debe ser un numero diferente de 0", "Aviso");
             }
             break;
+        // Format bcd
+        case 4:
+            // Iterat value (except char end string '\0')
+            for (gint i = 0; i <= (value->len) - 1; i++) {
+                // Compare chars the object string with '0', '1' y '.'
+                if (!((value->str[i] == '0') || value->str[i] == '1'/* || value->str[i] == '.'*/)) {
+                    flag = FALSE;
+                    break;
+                }
+            }
+
+            if (flag) {
+                bcdToDecimal(value, 1);
+            } else {
+                sendMessage(NULL, "Ingresar unicamente 0 y 1", "Aviso");
+            }
+            break;
         default:
             break;
     }
@@ -426,6 +439,7 @@ static void calcular(GtkWidget *widget, gpointer data) {
     const gchar *octal = gtk_entry_get_text(GTK_ENTRY(txtOcta));
     const gchar *deci = gtk_entry_get_text(GTK_ENTRY(txtDec));
     const gchar *hexa = gtk_entry_get_text(GTK_ENTRY(txtHexa));
+    const gchar *bcd = gtk_entry_get_text(GTK_ENTRY(txtBcd));
     
     // Validacion de datos enviados a 1
      if ((strcmp(bin, "") != 0)) {  
@@ -448,6 +462,11 @@ static void calcular(GtkWidget *widget, gpointer data) {
         id = 3;
         value = deci;
     }
+     if ((strcmp(bcd, "") != 0)) {
+        count++;
+        id = 4;
+        value = bcd;
+     }
     // num inputs need?
     if (count == 1) {
         GString *str = g_string_new(value);
@@ -456,12 +475,38 @@ static void calcular(GtkWidget *widget, gpointer data) {
         sendMessage(widget, "Solo debe ingresar un dato", "Advertencia");
     }
 }
+void clearEntrys() {
+    if(bandCheck == 1) {
+        gtk_entry_set_text(GTK_ENTRY(txtBin), "");
+        gtk_entry_set_text(GTK_ENTRY(txtDec), "");
+        gtk_entry_set_text(GTK_ENTRY(txtHexa), "");
+        gtk_entry_set_text(GTK_ENTRY(txtOcta), "");
+    }
+}
+void clearEntrysButton(){
+        gtk_entry_set_text(GTK_ENTRY(txtBin), "");
+        gtk_entry_set_text(GTK_ENTRY(txtDec), "");
+        gtk_entry_set_text(GTK_ENTRY(txtHexa), "");
+        gtk_entry_set_text(GTK_ENTRY(txtOcta), "");
+}
+
+void eventCheck() {
+    if (bandCheck == 0) {
+        bandCheck++;
+        gtk_widget_set_visible(GTK_WIDGET(buttonClear), FALSE);
+    } else {
+        bandCheck--;
+        gtk_widget_set_visible(GTK_WIDGET(buttonClear), TRUE);
+    }
+}
+
 // Funtion construct
 static void activate(GtkApplication *app, gpointer user_data) {
     GtkWidget *window;
     GtkWidget *fixed;
-    GtkWidget *labelBin, *labelDec, *labelOcta, *labelHexa;
+    GtkWidget *labelBin, *labelDec, *labelOcta, *labelHexa, *labelBcd;
     GtkWidget *buttonBox, *button;
+    GtkWidget *check;
 
     // Create container
     fixed = gtk_fixed_new();
@@ -471,37 +516,59 @@ static void activate(GtkApplication *app, gpointer user_data) {
     button = gtk_button_new_with_label("Calcular");
     g_signal_connect (button, "clicked", G_CALLBACK (calcular), NULL);
 
+    buttonClearBox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+    buttonClear =gtk_button_new_with_label("Limpiar entradas");
+    g_signal_connect(buttonClear, "clicked", G_CALLBACK(clearEntrysButton), NULL);
+
+    gtk_container_add(GTK_CONTAINER(buttonClearBox), buttonClear);
     gtk_container_add(GTK_CONTAINER(buttonBox), button);
     // add button and set position in fixed 
-    gtk_fixed_put(GTK_FIXED(fixed), buttonBox, 250, 500);
+    gtk_fixed_put(GTK_FIXED(fixed), buttonBox, 270, 590);
+    gtk_fixed_put(GTK_FIXED(fixed), buttonClearBox, 250, 640);
 
     // Create entry text with label 
     txtBin = gtk_entry_new();
     labelBin = gtk_label_new("Binario");
+    g_signal_connect(txtBin, "button_press_event", G_CALLBACK(clearEntrys), NULL);
     gtk_widget_set_size_request (GTK_WIDGET(txtBin), 220, 22);
 
     txtOcta = gtk_entry_new();
     labelOcta = gtk_label_new("Octal");
+    g_signal_connect(txtOcta, "button_press_event", G_CALLBACK(clearEntrys), NULL);
     gtk_widget_set_size_request (GTK_WIDGET(txtOcta), 220, 22);
 
     txtHexa = gtk_entry_new();
     labelHexa = gtk_label_new("Hexadecimal");
+    g_signal_connect(txtHexa, "button_press_event", G_CALLBACK(clearEntrys), NULL);
     gtk_widget_set_size_request (GTK_WIDGET(txtHexa), 220, 22);
 
     txtDec = gtk_entry_new();
     labelDec = gtk_label_new("decimal");
+    g_signal_connect(txtDec, "button_press_event", G_CALLBACK(clearEntrys), NULL);
     gtk_widget_set_size_request (GTK_WIDGET(txtDec), 220, 22);
+
+    txtBcd = gtk_entry_new();
+    labelBcd = gtk_label_new("Formato BCD");
+    g_signal_connect(txtBcd, "button_press_event", G_CALLBACK(clearEntrys), NULL);
+    gtk_widget_set_size_request (GTK_WIDGET(txtBcd), 220, 22);
 
     // Add witgets at fixed with position
     gtk_fixed_put(GTK_FIXED(fixed), txtBin, 220, 100);
     gtk_fixed_put(GTK_FIXED(fixed), txtOcta, 220, 200);
     gtk_fixed_put(GTK_FIXED(fixed), txtDec, 220, 300);
     gtk_fixed_put(GTK_FIXED(fixed), txtHexa, 220, 400);
+    gtk_fixed_put(GTK_FIXED(fixed), txtBcd, 220, 500);
 
-    gtk_fixed_put(GTK_FIXED(fixed), labelBin, 305, 85);
-    gtk_fixed_put(GTK_FIXED(fixed), labelOcta, 305, 185);
-    gtk_fixed_put(GTK_FIXED(fixed), labelDec, 305, 285);
-    gtk_fixed_put(GTK_FIXED(fixed), labelHexa, 290, 385);
+    gtk_fixed_put(GTK_FIXED(fixed), labelBin, 220, 85);
+    gtk_fixed_put(GTK_FIXED(fixed), labelOcta, 220, 185);
+    gtk_fixed_put(GTK_FIXED(fixed), labelDec, 220, 285);
+    gtk_fixed_put(GTK_FIXED(fixed), labelHexa, 220, 385);
+    gtk_fixed_put(GTK_FIXED(fixed), labelBcd, 220, 485);
+
+    // Check clear onclick
+    check = gtk_check_button_new_with_label("Limpiar con un click");
+    g_signal_connect(check, "clicked", G_CALLBACK(eventCheck), NULL);
+    gtk_fixed_put(GTK_FIXED(fixed), check, 220, 535);
 
     // Create window aplication
     window = gtk_application_window_new(app);
