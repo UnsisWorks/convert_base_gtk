@@ -269,9 +269,6 @@
 			De forma adicional se transformo el formato bcd a Octal, Binario y Hexadecimal utilizando la funcion de la figura 
 			\ref{algDecToRest} y el valor decimal obtenido.
 
-
-			AGREGAR BASES A FORMATO BCD
-
 			% Coloca alg de BCD a decimal
 			\begin{figure}[H]
 			\begin{center}
@@ -279,6 +276,21 @@
 			\caption{Algoritmo de BCD a decimal}
 			% Convertidor
 			\label{algBcdToDec}
+			\end{center}
+			%\vspace{-1cm}
+			\end{figure}
+
+			Para convertir de los demás formatos a BCD se utiliza un algoritmo que para de decimal a BCD, por lo que es 
+			posible reutilizarlo para las demas bases y asi optener su equivalente, el algoritmo se muestra en la figura
+			\ref{decToBcd} 
+
+			% Coloca alg de BCD a decimal
+			\begin{figure}[H]
+			\begin{center}
+			\includegraphics[width=10cm]{imag//algDecToBcd.png}
+			\caption{Algoritmo de decimal a BCD}
+			% Convertidor
+			\label{decToBcd}
 			\end{center}
 			%\vspace{-1cm}
 			\end{figure}

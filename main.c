@@ -9,7 +9,7 @@ int bandCheck = 0;
 
 gchar binToDecimal(GString *value, int push){
 
-    // Create objects and var nedd
+    // Create needed objects and vars
     GString *afterPoint = g_string_new(value -> str);
     GString *beforePoint = g_string_new(value -> str);
 
@@ -17,8 +17,7 @@ gchar binToDecimal(GString *value, int push){
     gfloat help = 0;
     gint pot = 0;
     gint result = 0;
-
-    // Separete string for point
+    // Separete the string from point
     for (gint i = 0; i < value->len; i++) {
         if (value -> str[i] == '.'){
             beforePoint = g_string_truncate(beforePoint, i);
@@ -27,16 +26,12 @@ gchar binToDecimal(GString *value, int push){
             break;
         } 
     }
-    // g_print("before: %s   After: %s  \n", beforePoint -> str, afterPoint -> str);
-
-    // Convert part before at point
+    // Convert the part before at point
     for (gint i = (beforePoint -> len) - 1; i >= 0; i--) {
         if (beforePoint -> str[i] == '1') {
             pot = (beforePoint->len - 1) - i;
-            // g_print("value: %c  pot: %d  ", (beforePoint -> str[i]), pot);
             help = pow(2, pot);
             result += help;
-            // g_print(" =  %f +=  %d\n", help, result);
         }
     }
 
@@ -123,16 +118,16 @@ void DecToHexaOcta(GString *value, int base){
 
 
 // Convert Decimal direct to hexadecimal and octal
-void DecToHexaOctaDirect(gint64 decimal, int base){
+gchar* DecToHexaOctaDirect(gint64 decimal, int base, int bcd){
     GString *mod = g_string_new("");
     int result;
     result = decimal;
-    char aux[10];
+    char aux[20];
     while (result != 0) {
         // Conversión y obtención de modulo
         sprintf(aux, "%d", (result % base));
         result = result / base;
-        g_print("mod: %s\n", aux);
+        // g_print("mod: %s\n", aux);
 
         // Validación para base Hexadecimal
         if (strcmp(aux, "10") == 0) {
@@ -148,9 +143,9 @@ void DecToHexaOctaDirect(gint64 decimal, int base){
         } else if (strcmp(aux, "15") == 0) {
             strcpy(aux, "F");
         } else {
-            g_print("normal ");
+            // g_print("normal ");
         }
-        g_print("mod2: %s\n", aux);
+        // g_print("mod2: %s\n", aux);
         
         mod = g_string_prepend(mod, aux);
     }
@@ -160,7 +155,13 @@ void DecToHexaOctaDirect(gint64 decimal, int base){
     } else if (base == 8) {
         gtk_entry_set_text(GTK_ENTRY(txtOcta), mod->str);
     } else if (base == 2){
-        gtk_entry_set_text(GTK_ENTRY(txtBin), mod->str);
+        if (bcd == 0) {
+            gtk_entry_set_text(GTK_ENTRY(txtBin), mod->str);
+        } else {
+            // g_print("conversion: %s\n", mod->str);
+            return mod->str;
+
+        }
     }
 }
 
@@ -265,29 +266,23 @@ int bcdToDecimal(GString *value, int flag) {
             difference = i - (value->len);
         }
     }
-
     // Add char's for complete multi the 3
     if (difference < 4 && difference != 0) {
         for (gint i = 1; i <= difference; i++) {
             g_string_prepend_c(value, '0');
         }
-        g_print("mod cadena bcd: %s longi: %ld\n", value->str, value->len);
     }
     for (gint i = 4; i < (value -> len) + 4; i+=4) {
         trunc = g_string_insert(trunc, 0, value->str);
-        // Recorta 3 numeros
+        // Recorta 4 numeros
         trunc = g_string_erase(trunc, i, 0 - 1);
         trunc = g_string_erase(trunc, 0, i - 4);
-        g_print("trunc: %s\n", trunc->str);
         request = g_string_append_c(request, binToDecimal(trunc, 1));
-        // g_print("i: %d  truc: %s; result = %s\n", i, trunc->str, request->str);
-
         // Vacia la cadena
         trunc = g_string_erase(trunc, 0, 0 - 1);
     }
     g_print("Valor: %s\n", request->str);
     if (flag == 0) {
-        g_print("set Value\n");
         gtk_entry_set_text(GTK_ENTRY(txtDec), request->str);
     } else {
         int retu = 0;
@@ -295,8 +290,36 @@ int bcdToDecimal(GString *value, int flag) {
         g_print ("return: %d\n", retu);
         return retu;
     }
-} 
+}
+// Decimal to format BCD
+void decToBcd (int val) {
+    char str[20];
+    sprintf(str, "%d", val);
+    GString *value = g_string_new(str);
+    GString *request = g_string_new("");
+    int arg = 0;
+    GString *aux= g_string_new("");
 
+    for (int i = 0; i < (value->len); i++) {
+        // Cast gchar to int
+        arg = value->str[i] - '0';
+        if (arg == 0) {
+            aux = g_string_append(aux, "0000");
+        } else {
+            aux = g_string_append(aux, DecToHexaOctaDirect(arg, 2, 1));
+            g_print("pre aux: %s\n", aux->str);
+            if((aux->len - 1) < 4){
+                for (int j = (aux->len); j < 4; j++) {
+                    aux = g_string_prepend_c(aux, '0');
+                }
+            }        
+        }
+        request = g_string_append(request, aux->str);
+        g_print("arg: %d request: %s aux: %s\n", arg, request->str, aux->str);
+        aux = g_string_erase(aux, 0, -1);
+    }
+    gtk_entry_set_text(GTK_ENTRY(txtBcd), request->str);
+}
 // Convert input a bases rest
 static void convert (int id, GString *value) {
     gboolean flag = TRUE;
@@ -345,9 +368,11 @@ static void convert (int id, GString *value) {
                     g_print("Continue\n");
                     OctalToDecimal(value, 0);
                     // Decimal to hexadecimal
-                    DecToHexaOctaDirect(OctalToDecimal(value, 1), 16);
+                    DecToHexaOctaDirect(OctalToDecimal(value, 1), 16, 0);
                     // Decimal to binary
-                    DecToHexaOctaDirect(OctalToDecimal(value, 1), 2);
+                    DecToHexaOctaDirect(OctalToDecimal(value, 1), 2, 0);
+                    // Set format BCD
+                    decToBcd(OctalToDecimal(value, 1));
                     
 
                 } else {
@@ -388,9 +413,11 @@ static void convert (int id, GString *value) {
                 // set base decimal 
                 hexaToDec(value, 0);
                 // set base octal
-                DecToHexaOctaDirect(hexaToDec(value, 1), 8);
+                DecToHexaOctaDirect(hexaToDec(value, 1), 8, 0);
                 // set base binary
-                DecToHexaOctaDirect(hexaToDec(value, 1), 2);
+                DecToHexaOctaDirect(hexaToDec(value, 1), 2, 0);
+                // set format BCD
+                decToBcd(hexaToDec(value, 1));
 
             } else {
                 sendMessage(NULL, "Numero octal no valido", "Aviso");
@@ -402,10 +429,10 @@ static void convert (int id, GString *value) {
             if (band != 0) {
                 g_print("continue\n");
                 /* Convert decimal to rest bases */
-
-                DecToHexaOctaDirect(band, 2);
-                DecToHexaOctaDirect(band, 8);
-                DecToHexaOctaDirect(band, 16);
+                decToBcd(band);
+                DecToHexaOctaDirect(band, 2, 0);
+                DecToHexaOctaDirect(band, 8, 0);
+                DecToHexaOctaDirect(band, 16, 0);
             } else {
                 sendMessage(NULL, "El decimal debe ser un numero diferente de 0", "Aviso");
             }
@@ -425,9 +452,9 @@ static void convert (int id, GString *value) {
                 bcdToDecimal(value, 0);
                 band = (gint64) bcdToDecimal(value, 1);
                 g_print("Value band: %ld\n", band);
-                DecToHexaOctaDirect(band, 16);
-                DecToHexaOctaDirect(band, 8);
-                DecToHexaOctaDirect(band, 2);
+                DecToHexaOctaDirect(band, 16, 0);
+                DecToHexaOctaDirect(band, 8, 0);
+                DecToHexaOctaDirect(band, 2, 0);
             } else {
                 sendMessage(NULL, "Ingresar unicamente 0 y 1", "Aviso");
             }
