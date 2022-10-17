@@ -3,8 +3,12 @@
 #include <math.h>
 #include <string.h>
 
+#define N 4
+
 GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec, *txtBcd , *buttonClear, *buttonClearBox;
 gchar letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
+// Numeros no validos para formato bcd
+gchar bcdInv[][N] = {"1010"};
 int bandCheck = 0;
 
 gchar binToDecimal(GString *value, int push){
@@ -63,6 +67,7 @@ gchar binToDecimal(GString *value, int push){
     if (push == 0) {
         gtk_entry_set_text(GTK_ENTRY(txtDec), fina);
     } else {
+        g_print("Resultado de calculo: %c\n\n", vali[0]);
         return vali[0];
     }
 }
@@ -258,7 +263,8 @@ static void sendMessage (GtkWidget *widget, gchar *message, gchar *title) {
 int bcdToDecimal(GString *value, int flag) {
     GString *result =  g_string_new("");
     GString *trunc =  g_string_new("");
-    GString *request = g_string_new("");;
+    GString *request = g_string_new("");
+    int flagBcd = 1;
     // Valid multipl to 4
     gint difference = 0;
     for (gint i = 4; i <= (value->len + 4); i += 4) {
@@ -266,7 +272,7 @@ int bcdToDecimal(GString *value, int flag) {
             difference = i - (value->len);
         }
     }
-    // Add char's for complete multi the 3
+    // Add char's for complete multi the 4
     if (difference < 4 && difference != 0) {
         for (gint i = 1; i <= difference; i++) {
             g_string_prepend_c(value, '0');
@@ -277,6 +283,14 @@ int bcdToDecimal(GString *value, int flag) {
         // Recorta 4 numeros
         trunc = g_string_erase(trunc, i, 0 - 1);
         trunc = g_string_erase(trunc, 0, i - 4);
+        g_print("Calcular: %s\n", trunc->str);
+        // Validar que el valor BCD sea menor que 9
+        for (gint j = 0; j < N; j++) {
+            if (strcmp(bcdInv[j], (trunc->str)) == 0) {
+                flagBcd = 0;
+                g_print("Valor no valido\n");
+            }
+        }
         request = g_string_append_c(request, binToDecimal(trunc, 1));
         // Vacia la cadena
         trunc = g_string_erase(trunc, 0, 0 - 1);
