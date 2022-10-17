@@ -100,7 +100,7 @@
 			
 			\vspace{1cm} \today
 		\end{center}
-\end{titlepage}
+	\end{titlepage}
 
     \newpage
     \tableofcontents
@@ -114,83 +114,123 @@
     {\it Convertidor de bases}\\[3mm]
     \end{center}
     
-    \begin{multicols}{2}
 
 		% Inicio del documento
 
 	% Section for links in doct e index
     \section{Introducción}
     
-    Dar un pequeña introducción del tema central de la práctica
-		% Coloca imagen y la centra en el espacio asignado
-		\begin{figure}[H]
-		\begin{center}
-		\includegraphics[width=4cm]{imag//logBN.jpg}
-		\caption{foto de escudo}
-		\label{figuraBN}
-		\end{center}
-		%%\vspace{-1cm}
- 		\end{figure}
+		Se desarrollara un programa de conversión 
+		bases, el cual admitirá decimal, octal, binario, Hexadecimal
+		y formato BCD. Para poder desplegarlo con formato
+		se utilizará la tecnologia GTK+, biblioteca
+		de el lenguaje de programación C 
+		% % Coloca imagen y la centra en el espacio asignado
+		% \begin{figure}[H]
+		% \begin{center}
+		% \includegraphics[width=4cm]{imag//logBN.jpg}
+		% \caption{foto de escudo}
+		% \label{figuraBN}
+		% \end{center}
+		% %%\vspace{-1cm}
+ 		% \end{figure}
 
-		ver la figura \ref*{figuraBN}
+		% ver la figura \ref*{figuraBN}
         
     \section{Objetivos}
+			
+    \begin{enumerate}
+		\item Realizar una calculadora capaz de cambiar la base de un
+		dado entre las bases: Decimal, Octal, Hexadecim,
+		y Formato BCD
 
-	\subsection{sub secion}
-
-	Serán presentados en clase    
+		\item Otorgar un diseño simple y util a la interfaz grafica
+		para la facilitar el manejo del programa 
+	
+	\end{enumerate} 
 		% Coloca imagen y la centra en el espacio asignado
+		% \begin{figure}[H]
+		% \begin{center}
+		% \includegraphics[width=4cm]{imag//logColor.jpg}
+		% \caption{foto de escudo}
+		% Convertidor
+		% \label{figura}
+		% \end{center}
+		% %%\vspace{-1cm}
+ 		% \end{figure}
+
+		% ver figura \ref{figura} se observa....
+    
+		
+	\section{Desarrollo}
+	\subsection{Planteamiento del problema}
+		Desarrollar un programa capaz de convertir un número de base decimal,
+		Octal, Binaria, Hexadecimal o formato BCD a el resto de las bases, esto
+		a ravés de una interfaz	gráfica. La implementación se realizará a través
+		de C y su biblioteca gráfica GTK+ en su versión 3.24.20.
+
+	\subsection{Diseño y creación de prototipos}
+		Al inicio se pensaba darle un diseño de calculadora a el programa, pero 
+		debido que tendrá bases específicas se opto por un diseño en el cual el 
+		mismo programa determinara la base de entrada, para posteriormente calcular
+		las demás bases.
+
+		El programa tendráun diseño simple, que permita a el usuario ingresar
+		de cualquier base admitida para obtenerlo en todas las demas bases 
+		disponibles. Para lograr dicha flexibilidad se opto por el diseño
+		mostrado en la figura \ref{ProgramDesign}
+
+		% Coloca imagen de diseño de imagen
 		\begin{figure}[H]
 		\begin{center}
-		\includegraphics[width=4cm]{imag//logColor.jpg}
-		\caption{foto de escudo}
-		Convertidor
-		\label{figura}
+		\includegraphics[width=7cm]{imag//ProgramDesign.png}
+		\caption{Diseño del programa}
+		% Convertidor
+		\label{ProgramDesign}
 		\end{center}
 		%%\vspace{-1cm}
  		\end{figure}
 
-		ver figura \ref{figura} se observa....
-
-    
-    \begin{enumerate}
-    \item 
-    \item
-    \end{enumerate}
+		Para limpiar los campos de entrada de texto se crearon dos formas, una mediante
+		un botón, y otra a través de un click sobre cualquiera de los campos. El cambio de 
+		metodo se da a través de el check con la leyenda: Limpiar con un click.
 		
-	\section{Desarrollo}
-	
-	Descripción general de la práctica
-	
+		Para el proceso de conversión se existen muchas formas de realizarlo, sin embargo
+		se observo que pasar de Decimal a Binario, Octal y Hexadecimal se debe dividir el número
+		decimal entre la base solicitada e ir concatenando los modulos de cada divición
+		hasta obtener cero, como se muestra en la figura \ref{decToOct}, dondé se convierte de decimal
+		a octal.
+
+		% Coloca imagen de diseño de imagen
+		\begin{figure}[H]
+		\begin{center}
+		\includegraphics[width=7cm]{imag//decimalToOctal.png}
+		\caption{Decimal a Octal}
+		% Convertidor
+		\label{decToOct}
+		\end{center}
+		%\vspace{-1cm}
+		\end{figure}
+
+		Con dicha forma de convertir las bases desde un número decimal se llego a un algoritno el cual
+		convierte desde decimal a octal, binario y Hexadecimal además de mostrar el resultado a el usuario
+		y de forma opcional regresarlo mediante un return en caso de ser necesario, el cual se muestra en la 
+		figura \ref{algDecToRest}.
+
+		% Coloca imagen de diseño de imagen
+		\begin{figure}[H]
+			\begin{center}
+			\includegraphics[width=10cm]{imag//algDecToRest.png}
+			\caption{Algoritmo de conversión de bases}
+			% Convertidor
+			\label{algDecToRest}
+			\end{center}
+			%\vspace{-1cm}
+			\end{figure}
 	\subsection{Materiales}	
-	
-	\begin{enumerate}
-	    \item 
-	    \item 
-	    \item 
-	    \item 
-	    \item 
-	    \item 
-	    \item 
-	    \item 
-	    \item 
-	\end{enumerate}
 	
 	\subsection{Procedimiento}
 	\renewcommand{\labelenumi}{\arabic{enumi}.}
-	\begin{enumerate}
-		\item 
-		
-		\item 
-		
-		\item
-		
-		\item
-		
-		\item
-		
-	\end{enumerate}
-    \end{multicols}
     
     	
     \section{Resultados}

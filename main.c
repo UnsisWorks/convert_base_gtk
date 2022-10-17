@@ -124,35 +124,28 @@ void DecToHexaOcta(GString *value, int base){
 
 // Convert Decimal direct to hexadecimal and octal
 void DecToHexaOctaDirect(gint64 decimal, int base){
-
     GString *mod = g_string_new("");
     int result;
     result = decimal;
     char aux[10];
-
     while (result != 0) {
-        // g_print("itera\n");
-        // g_print("%d / 16 =", result );
+        // Conversión y obtención de modulo
         sprintf(aux, "%d", (result % base));
         result = result / base;
         g_print("mod: %s\n", aux);
 
+        // Validación para base Hexadecimal
         if (strcmp(aux, "10") == 0) {
             strcpy(aux, "A");
-        } else
-        if (strcmp(aux, "11") == 0) {
+        } else if (strcmp(aux, "11") == 0) {
             strcpy(aux, "B");
-        } else
-        if (strcmp(aux, "12") == 0) {
+        } else if (strcmp(aux, "12") == 0) {
             strcpy(aux, "C");
-        } else
-        if (strcmp(aux, "13") == 0) {
+        } else if (strcmp(aux, "13") == 0) {
             strcpy(aux, "D");
-        } else
-        if (strcmp(aux, "14") == 0) {
+        } else if (strcmp(aux, "14") == 0) {
             strcpy(aux, "E");
-        } else
-        if (strcmp(aux, "15") == 0) {
+        } else if (strcmp(aux, "15") == 0) {
             strcpy(aux, "F");
         } else {
             g_print("normal ");
@@ -161,6 +154,7 @@ void DecToHexaOctaDirect(gint64 decimal, int base){
         
         mod = g_string_prepend(mod, aux);
     }
+    // Asignación del valor a la salida correspondiente
     if (base == 16) {
         gtk_entry_set_text(GTK_ENTRY(txtHexa), mod->str);
     } else if (base == 8) {
@@ -589,7 +583,7 @@ static void activate(GtkApplication *app, gpointer user_data) {
 
     // Create window aplication
     window = gtk_application_window_new(app);
-    gtk_window_set_title(GTK_WINDOW(window), "Window");
+    gtk_window_set_title(GTK_WINDOW(window), "Converidor de bases");
     gtk_window_set_default_size(GTK_WINDOW(window), 600, 600);
     gtk_window_set_position(GTK_WINDOW(window), GTK_WIN_POS_CENTER);
     gtk_window_set_resizable(GTK_WINDOW(window), FALSE);
