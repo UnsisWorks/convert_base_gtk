@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <math.h>
 #include <string.h>
+//#include "gtk_auto.h"
 
 #define N 4
-
 GtkWidget *txtBin, *txtOcta, *txtHexa, *txtDec, *txtBcd , *buttonClear, *buttonClearBox;
 gchar letters[] = {'A', 'B', 'C', 'D', 'E', 'F'};
 // Numeros no validos para formato bcd
@@ -289,11 +289,19 @@ int bcdToDecimal(GString *value, int flag) {
             if (strcmp(bcdInv[j], (trunc->str)) == 0) {
                 flagBcd = 0;
                 g_print("Valor no valido\n");
+                flagBcd = 1;
+                break;
             }
         }
-        request = g_string_append_c(request, binToDecimal(trunc, 1));
-        // Vacia la cadena
-        trunc = g_string_erase(trunc, 0, 0 - 1);
+        if (flagBcd == 0) {
+            request = g_string_append_c(request, binToDecimal(trunc, 1));
+            // Vacia la cadena
+            trunc = g_string_erase(trunc, 0, 0 - 1);
+        } else {
+            sendMessage(NULL, "BCD Solo reprecenta números del 0 - 9", "Advertencia");
+            break;
+        }
+        
     }
     g_print("Valor: %s\n", request->str);
     if (flag == 0) {
