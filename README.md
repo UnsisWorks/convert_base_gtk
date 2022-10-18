@@ -1,4 +1,4 @@
-# Convertidor de bases V.1.0
+# Convertidor de bases V1.3.0 (Beta)
 ## Bases soportadas
 * Decimal
 * Binario
