@@ -97,7 +97,7 @@
 			\begin{center}
 
 				\LARGE{ \textbf{Alumnos:}}\\%% \textbf son negritas
-        \LARGE{Elietzer Jared, kevin Emmanuel}\\%% \it es letra it?lica
+        		\LARGE{Elietzer Jared, Elio Justino}\\%% \it es letra it?lica
 				\vspace{0.5cm}
 				\textbf{Profesor:}  Dr. Alejandro Jarillo Silva \\
 				\vspace{0.5cm}
@@ -116,7 +116,7 @@
     \begin{center}
     \textbf{ Alumno:}\\[3mm]
     {\it Elietzer Jared}\\[3mm]
-    {\it Kevin Emmanuel}\\[3mm]
+    {\it Elio Justino}\\[3mm]
     {\it Grupo 306}\\[3mm]
     {\it Convertidor de bases}\\[3mm]
     \end{center}
@@ -125,13 +125,14 @@
 		% Inicio del documento
 
 	% Section for links in doct e index
+	\begin{multicols}{2}
     \section{Introducción}
     
-		Se desarrollara un programa de conversión 
-		bases, el cual admitirá decimal, octal, binario, Hexadecimal
+		Se desarrollará un programa de conversión de 
+		bases, el cual admitirá decimal, octal, binario, hexadecimal
 		y formato BCD. Para poder desplegarlo con formato
-		se utilizará la tecnologia GTK+, biblioteca
-		de el lenguaje de programación C 
+		se utilizará la tecnología GTK+, biblioteca
+		de el lenguaje de programación C. 
 		% % Coloca imagen y la centra en el espacio asignado
 		% \begin{figure}[H]
 		% \begin{center}
@@ -148,13 +149,13 @@
 			
     \begin{enumerate}
 		\item Realizar una calculadora capaz de cambiar la base de un
-		dado entre las bases: Decimal, Octal, Hexadecim,
+		dado entre las bases: Decimal, Octal, Hexadecimal,
 		y Formato BCD.
 
-		\item Otorgar un diseño simple y util a la interfaz grafica
-		para la facilitar el manejo del programa.
+		\item Otorgar un diseño simple y útil a la interfaz gráfica
+		para facilitar el manejo del programa.
 
-		\item Optener un algoritmo eficiente capaz de abstraer los conceptos teoricos y aplicarlos de forma corracta.
+		\item Obtener un algoritmo eficiente capaz de abstraer los conceptos       		teóricos y aplicarlos de forma correcta.
 	
 	\end{enumerate} 
 		% Coloca imagen y la centra en el espacio asignado
@@ -174,19 +175,17 @@
 	\section{Desarrollo}
 	\subsection{Planteamiento del problema}
 		Desarrollar un programa capaz de convertir un número de base decimal,
-		Octal, Binaria, Hexadecimal o formato BCD a el resto de las bases, esto
-		a ravés de una interfaz	gráfica. La implementación se realizará a través
-		de C y su biblioteca gráfica GTK+ en su versión 3.24.20.
+		Octal, Binaria, Hexadecimal o formato BCD al resto de las bases, esto
+		a través de una interfaz	gráfica. La implementación se realizará a 	  	   		través de C y su biblioteca gráfica GTK+ en su versión 3.24.20.
 
 	\subsection{Diseño y creación de algoritmos}
-		Al inicio se pensaba darle un diseño de calculadora a el programa, pero 
-		debido que tendrá bases específicas se opto por un diseño en el cual el 
-		mismo programa determinara la base de entrada, para posteriormente calcular
-		las demás bases.
+		Al inicio se pensaba darle un diseño de calculadora al programa, pero 
+		debido a que tendrá bases específicas, se optó por un diseño en el cual él 
+		mismo programa determinará la base de entrada, para posteriormente 			    	calcular las demás bases.
 
-		El programa tendráun diseño simple, que permita a el usuario ingresar
-		de cualquier base admitida para obtenerlo en todas las demas bases 
-		disponibles. Para lograr dicha flexibilidad se opto por el diseño
+		El programa tendrá un diseño simple, que permita al usuario ingresar
+		de cualquier base admitida para obtenerlo en todas las demás bases 
+		disponibles. Para lograr dicha flexibilidad se optó por el diseño
 		mostrado en la figura \ref{ProgramDesign}
 
 		% Coloca imagen de diseño de imagen
@@ -201,13 +200,13 @@
  		\end{figure}
 
 		Para limpiar los campos de entrada de texto se crearon dos formas, una mediante
-		un botón, y otra a través de un click sobre cualquiera de los campos. El cambio de 
-		metodo se da a través de el check con la leyenda: Limpiar con un click.
+		un botón, y otra a través de un clic sobre cualquiera de los campos. El cambio de 
+		método se da a través del check con la leyenda: Limpiar con un clic.
 		
 		Para el proceso de conversión se existen muchas formas de realizarlo, sin embargo
-		se observo que pasar de Decimal a Binario, Octal y Hexadecimal se debe dividir el número
-		decimal entre la base solicitada e ir concatenando los modulos de cada divición
-		hasta obtener cero, como se muestra en la figura \ref{decToOct}, dondé se convierte de decimal
+		se observó que pasar de Decimal a Binario, Octal y Hexadecimal se debe dividir el número
+		decimal entre la base solicitada e ir concatenando los módulos de cada división
+		hasta obtener cero, como se muestra en la figura \ref{decToOct}, donde se convierte de decimal
 		a octal.
 
 		% Coloca imagen de diseño de imagen
@@ -221,8 +220,8 @@
 		%\vspace{-1cm}
 		\end{figure}
 
-		Con dicha forma de convertir las bases desde un número decimal se llego a un algoritmo el cual
-		convierte desde decimal a octal, binario y Hexadecimal además de mostrar el resultado a el usuario
+		Con dicha forma de convertir las bases desde un número decimal se llegó a un algoritmo el cual
+		convierte desde decimal a octal, binario y Hexadecimal, además de mostrar el resultado al usuario
 		y de forma opcional regresarlo mediante un return en caso de ser necesario, el cual se muestra en la 
 		figura \ref{algDecToRest}.
 
@@ -239,17 +238,17 @@
 
 			Con  el uso de este algoritmo solamente faltaría pasar de base Octal,
 			Binario y Hexadecimal a binario, una vez echo esto el programa estaría
-			casi completo, por lo que el primero en desarrollarse sera de Binario a 
-			Decimal. Lo primero que se realizo fue buscar el punto decimal en la 
+			casi completo, por lo que el primero en desarrollarse será de Binario a 
+			Decimal. Lo primero que se realizó fue buscar el punto decimal en la 
 			cadena binaria para futuras versiones. En este caso solo nos centraremos
-			en los numeros enteros. Una vez que tenemos una cadena binaria entera
+			en los números enteros. Una vez que tenemos una cadena binaria entera
 			se recorre de derecha a izquierda para ir elevando la base a su potencia 
-			correspodiente. Figura \ref{algBinToDec} 
+			correspondiente. Figura \ref{algBinToDec} 
 			
 			% Coloca imagen de diseño de imagen
 			\begin{figure}[H]
 			\begin{center}
-			\includegraphics[width=10cm]{imag//algBinToDec.png}
+			\includegraphics[width=9cm]{imag//algBinToDec.png}
 			\caption{Algoritmo de binario a decimal}
 			% Convertidor
 			\label{algBinToDec}
@@ -258,17 +257,17 @@
 			\end{figure}
 
 			El resto de los algoritmos que convierten a binario se realizaron de forma similar. Una vez que fue
-			posible convertir a decimal se utilizo el algoritmo de la figura \ref{algDecToRest} para llegar a las 
+			posible convertir a decimal se utilizó el algoritmo de la figura \ref{algDecToRest} para llegar a las 
 			demás bases.
 
 			Para el formato BCD primero tenemos que tomar en cuenta que la cadena binaria se divide en grupos de 
-			4 elementos para posteriormente transformarlos a decimal de forma separada y concatenar dichos numeros para 
+			4 elementos para posteriormente transformarlos a decimal de forma separada y concatenar dichos números para 
 			obtener el resultado.
 
-			Se desarrollo un algoritmo que asegura que la cadena contendra grupos de 4 elementos, posteriormente utiliza 
+			Se desarrolló un algoritmo que asegura que la cadena contendrá grupos de 4 elementos, posteriormente utiliza 
 			el mismo algoritmo de conversión de Binario a Decimal (figura \ref{algBinToDec}) por grupos de 4 en 4 elementos.
-			Por ultimo concatena los resultados separados y muestra el resultado. Algoritmo en la figura \ref{algBcdToDec}.
-			De forma adicional se transformo el formato bcd a Octal, Binario y Hexadecimal utilizando la funcion de la figura 
+			Por último concatena los resultados separados y muestra el resultado. Algoritmo en la figura \ref{algBcdToDec}.
+			De forma adicional se transformó el formato bcd a Octal, Binario y Hexadecimal utilizando la función de la figura 
 			\ref{algDecToRest} y el valor decimal obtenido.
 
 			% Coloca alg de BCD a decimal
@@ -282,15 +281,15 @@
 			%\vspace{-1cm}
 			\end{figure}
 
-			Para convertir de los demás formatos a BCD se utiliza un algoritmo que los convierte a base decimal, dondé  para 
-			pasar de decimal a BCD se realizo un algoritmo que convierte decimal a formato BCD, como se muestra en la figura 
-			\ref{decToBcd}. Es posible reutilizar dicho algoritmo para convertir de las demas bases a formato BCD pasando por
-			la base decimal y asi optener su equivalente. 
+			Para convertir de los demás formatos a BCD se utiliza un algoritmo que los convierte a base decimal, donde  para 
+			pasar de decimal a BCD se realizó un algoritmo que convierte decimal a formato BCD, como se muestra en la figura 
+			\ref{decToBcd}. Es posible reutilizar dicho algoritmo para convertir de las demáss bases a formato BCD pasando por
+			la base decimal y así obtener su equivalente. 
 
 			% Coloca alg de BCD a decimal
 			\begin{figure}[H]
 			\begin{center}
-			\includegraphics[width=10cm]{imag//algDecToBcd.png}
+			\includegraphics[width=9cm]{imag//algDecToBcd.png}
 			\caption{Algoritmo de decimal a BCD}
 			% Convertidor
 			\label{decToBcd}
@@ -302,26 +301,26 @@
     
     	
     \section{Resultados}
-		El programa actua según lo esperado, siendo capaz de convertir de cualquier base a el resto (dentro de las admitidas. Figura \ref{programFuntion}).
-		Aún es posible mejorar el código utilizando otras herramientas que nos proveé C, además de agregar aperaciónes a el programa
-		como lo son la suma, resta, etc. Pero los objetivos para este proyecto se cumplieron. El código fuente se encuentra al final del archivo dondé se
-		estarán publicando las proximas versiones.		
+		El programa actúa según lo esperado, siendo capaz de convertir de cualquier base al resto (dentro de las admitidas. Figura \ref{programFuntion}).
+		Aún es posible mejorar el código utilizando otras herramientas que nos provee C, además de agregar aperaciones al programa
+		como lo son la suma, resta, etc. Pero los objetivos para este proyecto se cumplieron. El código fuente se encuentra al final del archivo donde se
+		estarán publicando las próximas versiones.		
 		% Coloca alg de BCD a decimal
 		\begin{figure}[H]
 		\begin{center}
-		\includegraphics[width=10cm]{imag//programFuntion.png}
-		\caption{Muestra de funcion del programa finalizado}
+		\includegraphics[width=9cm]{imag//programFuntion.png}
+		\caption{Muestra de función del programa finalizado}
 		% Convertidor
 		\label{programFuntion}
 		\end{center}
 		%\vspace{-1cm}
 		\end{figure}
 
-	    
+	    \end{multicols}
 	    \section{Conclusiones}
-		El programa se completo con exito, si bien no se realizaron conversiónes entre algunas bases
-		de forma directa, el objetivo del programa es poder realizar el cambio de base de un numero de
-		la manera más eficiente posible, que es lo que se realizo en dicho algoritmo, reciclar y generalizar
+		El programa se completó con éxito, si bien no se realizaron conversiones entre algunas bases
+		de forma directa, el objetivo del programa es poder realizar el cambio de base de un número de
+		la manera más eficiente posible, que es lo que se realizó en dicho algoritmo, reciclar y generalizar
 		un algoritmo para mejorar su legibilidad y eficiencia.
 		
 		Código fuente: \url{https://github.com/UnsisWorks/convert_base_gtk}
